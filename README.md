@@ -1,12 +1,14 @@
-# ProjetIntegrationImerirArchitecture
+# Projet Integration Imerir Architecture &amp; Platforms
 Projet d'intégration 'Architecture &amp; Platforms' de la 3éme année d'Imerir
 
-Equipe :
-CAMPOY Mickael
-DUBOT Nathan
-MARTIN Anthony
+<h2>Equipe :</h2>
+<ul>
+<li>CAMPOY Mickael</li>
+<li>DUBOT Nathan</li>
+<li>MARTIN Anthony</li>
+</ul>
 
-Technologies retenues pour le projet :
+<h2>Technologies retenues pour le projet :<h2>
 <ul>
 <li>Serveur sur le raspberry pi : Python / Flask </li>
 <li> ... </li>
