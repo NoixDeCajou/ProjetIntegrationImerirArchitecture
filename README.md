@@ -8,7 +8,7 @@ Projet d'intégration 'Architecture &amp; Platforms' de la 3éme année d'Imerir
 <li>MARTIN Anthony</li>
 </ul>
 
-<h2>Technologies retenues pour le projet :<h2>
+<h2>Technologies retenues pour le projet :</h2>
 <ul>
 <li>Serveur sur le raspberry pi : Python / Flask </li>
 <li> ... </li>
