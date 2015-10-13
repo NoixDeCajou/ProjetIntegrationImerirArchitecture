@@ -13,19 +13,19 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/test/')
+@app.route('/testroute/')
 def index2():
     return render_template('index2.html')
 
 
 @socketio.on('my event', namespace='/test')
-def test_message(message):
+def on_my_event(message):
     print("my event: " + message['data'])
     emit('my response', {'data': message['data']})
 
 
 @socketio.on('my broadcast event', namespace='/test')
-def test_message(message):
+def on_broadcast(message):
     print("my broadcast: " + message['data'])
     emit('my response', {'data': message['data']}, broadcast=True)
 
@@ -36,9 +36,26 @@ def test_connect():
     emit('my response', {'data': 'Connected'})
 
 
+@socketio.on('connect', namespace='/')
+def test_connect():
+    print("on connect no namespace")
+    emit('my response', {'data': 'Connected'})
+
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
     print('Client disconnected')
+
+
+@socketio.on('message', namespace='/test')
+def test_message_namespace(message):
+    print("my broadcast namespace: " + message['data'])
+    emit('my response', {'data': message['data']}, broadcast=True)
+
+
+@socketio.on('message')
+def test_message(message):
+    print("my broadcast: " + message['data'])
+    emit('my response', {'data': message['data']}, broadcast=True)
 
 
 if __name__ == '__main__':
