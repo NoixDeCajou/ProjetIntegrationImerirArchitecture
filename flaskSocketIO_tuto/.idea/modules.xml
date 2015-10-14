@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/flaskSocketIO_tuto.iml" filepath="$PROJECT_DIR$/.idea/flaskSocketIO_tuto.iml" />
-      <module fileurl="file://$USER_HOME$/PycharmProjects/flaskSocketIO_tuto/.idea/untitled1.iml" filepath="$USER_HOME$/PycharmProjects/flaskSocketIO_tuto/.idea/untitled1.iml" />
     </modules>
   </component>
 </project>

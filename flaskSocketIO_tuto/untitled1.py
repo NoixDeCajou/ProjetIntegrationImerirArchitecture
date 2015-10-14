@@ -34,7 +34,7 @@ def on_broadcast(message):
 @socketio.on('connect', namespace='/test')
 def test_connect():
     print("on connect")
-    emit('my response', {'data': 'Connected'})
+    emit('my response', {'data': 'bienvenue'})
 
 
 @socketio.on('connect', namespace='/')
@@ -60,4 +60,4 @@ def test_message(message):
 
 
 if __name__ == '__main__':
-    socketio.run(app, '0.0.0.0')
+    socketio.run(app, '192.168.1.69',80)
