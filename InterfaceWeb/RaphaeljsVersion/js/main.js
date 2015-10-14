@@ -1,11 +1,20 @@
 var jsonCity = '{"areas":[{"name":"Quartier Nord","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"m","x":0.5,"y":0.5},{"name":"b","x":0.5,"y":1}],"streets":[{"name":"mb","path":["m","b"],"oneway":false}],"bridges":[{"from":"b","to":{"area":"Quartier Sud","vertex":"h"},"weight":2}]}},{"name":"Quartier Sud","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"a","x":1,"y":1},{"name":"m","x":0,"y":1},{"name":"h","x":0.5,"y":0}],"streets":[{"name":"ah","path":["a","h"],"oneway":false},{"name":"mh","path":["m","h"],"oneway":false}],"bridges":[{"from":"h","to":{"area":"Quartier Nord","vertex":"b"},"weight":2}]}}]}';
 jsonCity = data = $.parseJSON(jsonCity);
 console.log(jsonCity);
-var firstArea = jsonCity.areas[0];
+var firstArea = jsonCity.areas[1];
 var areaName = firstArea.name;
 $("#areaName").append(areaName);
 
 var paperGlobal;
+
+var widthCanvas;
+var heightCanvas;
+
+var appelX = null;
+var appelY = null;
+
+var marker = null;
+var cheminAppelPoint = null;
 
 
 var listVerticesCircle = [];
@@ -15,6 +24,9 @@ window.onresize=function(){
 	var canvas = init();
 	canvas.innerHTML = "";
 	draw(canvas);
+	if (appelX != null || appelY != null) {
+		getPointProche(appelX,appelY);
+	};
 }
 
 window.onload = function(){
@@ -26,16 +38,16 @@ function init(){
 	canvas = document.getElementById("myCanvas");
 	canvas.width = document.body.clientWidth; //document.width is obsolete
 	canvas.height = document.body.clientHeight; //document.height is obsolete
+
+	widthCanvas = canvas.width;
+	heightCanvas = canvas.height;
+
 	return canvas;
 }
 
 
 function draw(canvas){
 	paperGlobal = Raphael(canvas, canvas.width, canvas.height);
-
-	var widthCanvas = canvas.width;
-	var heightCanvas = canvas.height;
-
 
 	$.each(firstArea.map.vertices, function(i,item){
 		var circle = paperGlobal.circle(widthCanvas*item.x, heightCanvas*item.y, 30);
@@ -95,14 +107,25 @@ function draw(canvas){
 }
 
 $('#myCanvas').click(function(e) {
+	if (cheminAppelPoint != null || marker != null ) {
+		cheminAppelPoint.remove();
+		marker.remove();
+	};
 	var posX = $(this).position().left,posY = $(this).position().top;
 	posX = (e.pageX - posX);
 	posY = (e.pageY - posY);
-	alert(posX + " , "+posY);
-	getPointProche(posX,posY,this);
+
+	appelX = posX/widthCanvas;
+	appelY = posY/heightCanvas;
+
+	getPointProche(appelX,appelY,this);
 });
 
 function appelSurPoint(caller,name){
+	if (cheminAppelPoint != null || marker != null ) {
+		cheminAppelPoint.remove();
+		marker.remove();
+	};
 	console.log(caller);
 	alert("Un Taxi a été appelé sur le point "+name);
 }
@@ -115,10 +138,8 @@ function getPointProche(posX,posY){
 	var distanceLaPlusProche = 9999;
 	var pointLePlusProche;
 	canvas = document.getElementById("myCanvas");
-	var widthCanvas = canvas.width;
-	var heightCanvas = canvas.height;
 	$.each(firstArea.map.vertices,function(i,item){
-		var distance = calculeDistance(posX,posY,widthCanvas*item.x,heightCanvas*item.y);
+		var distance = calculeDistance(widthCanvas*posX,heightCanvas*posY,widthCanvas*item.x,heightCanvas*item.y);
 		if (distance < distanceLaPlusProche) {
 			distanceLaPlusProche = distance;
 			pointLePlusProche = item;
@@ -127,10 +148,10 @@ function getPointProche(posX,posY){
 	console.log(pointLePlusProche);
 	console.log(distanceLaPlusProche);
 
-	var c = paperGlobal.path("M "+posX+","+posY+" L"+widthCanvas*pointLePlusProche.x+","+heightCanvas*pointLePlusProche.y);
+	cheminAppelPoint = paperGlobal.path("M "+widthCanvas*posX+","+heightCanvas*posY+" L"+widthCanvas*pointLePlusProche.x+","+heightCanvas*pointLePlusProche.y);
+	marker = paperGlobal.image("img/marker.png", widthCanvas*posX-40, heightCanvas*posY-40, 80, 80);
 	// Sets the stroke attribute of the circle to white
-	c.attr({"stroke-dasharray" :"-","stroke-width":3});
-	c.toBack();
+	cheminAppelPoint.attr({"stroke-dasharray" :"-","stroke-width":3});
 
 }
 
