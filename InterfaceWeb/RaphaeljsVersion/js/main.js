@@ -1,7 +1,7 @@
 var jsonCity = '{"areas":[{"name":"Quartier Nord","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"m","x":0.5,"y":0.5},{"name":"b","x":0.5,"y":1}],"streets":[{"name":"mb","path":["m","b"],"oneway":false}],"bridges":[{"from":"b","to":{"area":"Quartier Sud","vertex":"h"},"weight":2}]}},{"name":"Quartier Sud","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"a","x":1,"y":1},{"name":"m","x":0,"y":1},{"name":"h","x":0.5,"y":0}],"streets":[{"name":"ah","path":["a","h"],"oneway":false},{"name":"mh","path":["m","h"],"oneway":false}],"bridges":[{"from":"h","to":{"area":"Quartier Nord","vertex":"b"},"weight":2}]}}]}';
 jsonCity = data = $.parseJSON(jsonCity);
 console.log(jsonCity);
-var firstArea = jsonCity.areas[1];
+var firstArea = jsonCity.areas[0];
 var areaName = firstArea.name;
 $("#areaName").append(areaName);
 
@@ -122,6 +122,7 @@ $('#myCanvas').click(function(e) {
 });
 
 function appelSurPoint(caller,name){
+	//caller.attr("fill" , "#5CB85C");
 	if (cheminAppelPoint != null || marker != null ) {
 		cheminAppelPoint.remove();
 		marker.remove();
@@ -152,6 +153,8 @@ function getPointProche(posX,posY){
 	marker = paperGlobal.image("img/marker.png", widthCanvas*posX-40, heightCanvas*posY-40, 80, 80);
 	// Sets the stroke attribute of the circle to white
 	cheminAppelPoint.attr({"stroke-dasharray" :"-","stroke-width":3});
+
+	alert("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
 
 }
 
