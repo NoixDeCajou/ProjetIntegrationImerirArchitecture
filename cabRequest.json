@@ -1,0 +1,20 @@
+{
+    "cabRequest": [
+        {
+            "area": "Quartier Nord",
+            "location": {
+                "area": "Quartier Nord",
+                "locationType": "vertex",
+                "location": "b"
+            }
+        },
+        {
+            "area": "Quartier Sud",
+            "location": {
+                "area": "Quartier Nord",
+                "locationType": "vertex",
+                "location": "t"
+            }
+        }
+    ]
+}
