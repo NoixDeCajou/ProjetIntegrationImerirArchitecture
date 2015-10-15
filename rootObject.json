@@ -105,7 +105,7 @@
             "location": {
                 "area": "Quartier Sud",
                 "locationType": "vertex",
-                "location": "t"
+                "location": "h"
             }
         },
         "loc_now": {
@@ -133,7 +133,7 @@
             "location": {
                 "area": "Quartier Nord",
                 "locationType": "vertex",
-                "location": "t"
+                "location": "h"
             }
         }
     ]
