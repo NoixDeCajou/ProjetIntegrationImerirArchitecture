@@ -38,6 +38,7 @@ window.onresize=function(){
 }
 
 window.onload = function(){
+	initWebService();
 	var canvas = init();
 	draw(canvas);
 	initWebSocket();
@@ -137,7 +138,7 @@ function appelSurPoint(caller,name){
 		marker.remove();
 	};
 	console.log(caller);
-	doSend("Taxi demander au point "+name);
+	doSendCabRequest(areaName,name);
 	//alert("Un Taxi a été appelé sur le point "+name);
 	$("#lastNotification").html("Un Taxi a été appelé sur le point "+name);
 }
@@ -165,13 +166,25 @@ function getPointProche(posX,posY){
 	// Sets the stroke attribute of the circle to white
 	cheminAppelPoint.attr({"stroke-dasharray" :"-","stroke-width":3});
 
-	doSend("Taxi demander au point "+pointLePlusProche.name);
+	doSendCabRequest(areaName,pointLePlusProche.name);
+	$("#lastNotification").html("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
 	//alert("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
 
 }
 
 
-
+/***********************************
+*
+*		Gestion du webservice
+*	
+*
+*
+/***********************************/
+function initWebService(){
+	$.getJSON( "172.30.1.120:5000/cab", function( data ) {
+		alert(data);
+	});
+}
 
 
 
@@ -224,9 +237,9 @@ function onError(evt)
 
 }
 
-function doSend(message)
+function doSendCabRequest(areaName,vertexName)
 {
-	console.log("sent: " + message + '\n'); 
+	var message = '{"cabRequest": [{"area": "'+areaName+'","location": {"area": "'+areaName+'","locationType": "vertex","location": "'+vertexName+'"}}]}';
 	websocket.send(message);
 }
 
