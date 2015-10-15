@@ -17,7 +17,6 @@ stop_sending = False
 
 
 class SimpleChat(WebSocket):
-
     def __init__(self):
         WebSocket.__init__(self)
         self.numeroArea = -1
@@ -48,7 +47,7 @@ class SimpleChat(WebSocket):
             j = 0
             areaDistributed = False
             while (j < len(clients)) and (areaDistributed == False):
-                if( (clients[i]).numeroArea == i):
+                if ((clients[i]).numeroArea == i):
                     areaDistributed = True
 
             if areaDistributed == False:
@@ -59,7 +58,7 @@ class SimpleChat(WebSocket):
         if self.numeroArea == -1:
             self.close(1000, u'No Free Area')
 
-        if allAreasAtributed() == True: # toutes les areas sont attribuées, start sending maps
+        if allAreasAtributed() == True:  # toutes les areas sont attribuées, start sending maps
             stop_sending = False
             sender = MapSender()
             sender.start()
@@ -88,6 +87,7 @@ class MapSender(Thread):
             pass
             sleep(1)
         pass
+
     pass
 
 
@@ -112,7 +112,6 @@ def send_taxi(msg):
 
 
 def allAreasAtributed():
-
     i2 = 0
     for area2 in (themap['areas']):
 
@@ -151,7 +150,6 @@ if __name__ == "__main__":
         for area in themap['areas']:
             pprint("---------------------")
             pprint(area)
-
 
     cls = SimpleChat
 
