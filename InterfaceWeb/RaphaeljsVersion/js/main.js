@@ -1,3 +1,11 @@
+/***********************************
+*
+*		Gestion du dessin
+*	
+*
+*
+/***********************************/
+
 var jsonCity = '{"areas":[{"name":"Quartier Nord","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"m","x":0.5,"y":0.5},{"name":"b","x":0.5,"y":1}],"streets":[{"name":"mb","path":["m","b"],"oneway":false}],"bridges":[{"from":"b","to":{"area":"Quartier Sud","vertex":"h"},"weight":2}]}},{"name":"Quartier Sud","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"a","x":1,"y":1},{"name":"m","x":0,"y":1},{"name":"h","x":0.5,"y":0}],"streets":[{"name":"ah","path":["a","h"],"oneway":false},{"name":"mh","path":["m","h"],"oneway":false}],"bridges":[{"from":"h","to":{"area":"Quartier Nord","vertex":"b"},"weight":2}]}}]}';
 jsonCity = data = $.parseJSON(jsonCity);
 console.log(jsonCity);
@@ -32,6 +40,7 @@ window.onresize=function(){
 window.onload = function(){
 	var canvas = init();
 	draw(canvas);
+	initWebSocket();
 };
 
 function init(){
@@ -73,7 +82,7 @@ function draw(canvas){
 		c.toBack();
 	});
 
-	console.log(listVerticesCircle);
+	//console.log(listVerticesCircle);
 
 		/*****ANIMATIONS*****/
 	// Hover in function
@@ -128,6 +137,7 @@ function appelSurPoint(caller,name){
 		marker.remove();
 	};
 	console.log(caller);
+	doSend("Taxi demander au point "+name);
 	alert("Un Taxi a été appelé sur le point "+name);
 }
 
@@ -154,7 +164,71 @@ function getPointProche(posX,posY){
 	// Sets the stroke attribute of the circle to white
 	cheminAppelPoint.attr({"stroke-dasharray" :"-","stroke-width":3});
 
-	alert("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
+	doSend("Taxi demander au point "+pointLePlusProche.name);
+	//alert("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
 
 }
 
+
+
+
+
+
+
+
+/***********************************
+*
+*		Gestion de la websocket
+*	
+*
+*
+/***********************************/
+
+function initWebSocket()
+{
+	var webSocketAddress = "ws://localhost:8000/"
+	doConnect(webSocketAddress);
+}
+
+function doConnect(webSocketAddress)
+{
+	websocket = new WebSocket(webSocketAddress);
+	websocket.onopen = function(evt) { onOpen(evt) };
+	websocket.onclose = function(evt) { onClose(evt) };
+	websocket.onmessage = function(evt) { onMessage(evt) };
+	websocket.onerror = function(evt) { onError(evt) };
+}
+
+function onOpen(evt)
+{
+	console.log("connected\n" + evt);
+
+}
+
+function onClose(evt)
+{
+	console.log("disconnected\n" + evt);
+}
+
+function onMessage(evt)
+{
+	console.log("response: " + evt.data + '\n');
+}
+
+function onError(evt)
+{
+	console.log('error: ' + evt.data + '\n');
+
+	websocket.close();
+
+}
+
+function doSend(message)
+{
+	console.log("sent: " + message + '\n'); 
+	websocket.send(message);
+}
+
+function doDisconnect() {
+	websocket.close();
+}
