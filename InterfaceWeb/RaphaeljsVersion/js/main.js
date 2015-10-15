@@ -138,7 +138,8 @@ function appelSurPoint(caller,name){
 	};
 	console.log(caller);
 	doSend("Taxi demander au point "+name);
-	alert("Un Taxi a été appelé sur le point "+name);
+	//alert("Un Taxi a été appelé sur le point "+name);
+	$("#lastNotification").html("Un Taxi a été appelé sur le point "+name);
 }
 
 function calculeDistance(x1, y1, x2, y2) {
