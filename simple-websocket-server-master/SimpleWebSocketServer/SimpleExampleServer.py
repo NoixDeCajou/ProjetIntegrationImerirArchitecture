@@ -112,6 +112,7 @@ def send_taxi(msg):
 
 
 def allAreasAtributed():
+
     i2 = 0
     for area2 in (themap['areas']):
 
@@ -121,8 +122,13 @@ def allAreasAtributed():
                 areaAtributed = True
             pass
 
+        if areaAtributed == False:
+            return False
+
         i2 += 1
         pass
+
+    return True
 
 
 if __name__ == "__main__":
