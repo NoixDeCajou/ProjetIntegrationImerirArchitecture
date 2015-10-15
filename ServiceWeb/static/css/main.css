@@ -11,4 +11,5 @@ html, body
 
 #myCanvas svg{
 	border:1px solid #000000;
+	/*background-image:url(../img/back.png);*/
 }
