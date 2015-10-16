@@ -27,9 +27,16 @@ with open('city.json') as data_file:
                 if point[0]==(map['name']+'.'+arc['path'][1]):
                     x2=point[1]
                     y2=point[2]
+            edgeList.append([map['name']+'.'+arc['path'][0],map['name']+'.'+arc['path'][1],math.sqrt(math.pow(x2-x1,2)+math.pow(y2-y1,2))])
+            print([map['name']+'.'+arc['path'][0],map['name']+'.'+arc['path'][1],math.sqrt(math.pow(x2-x1,2)+math.pow(y2-y1,2))])
 
-
-            dist=math.sqrt(math.pow(x2-x1,2)+math.pow(y2-y1,2))
-
-            edgeList.append([map['name']+'.'+arc['path'][0],map['name']+'.'+arc['path'][1],dist])
-            print([map['name']+'.'+arc['path'][0],map['name']+'.'+arc['path'][1],dist])
+        for arc in (map['map']['bridges']):
+            for point in verticeList:
+                if point[0]==(map['name']+'.'+arc['from']):
+                    x1=point[1]
+                    y1=point[2]
+                if point[0]==(arc['to']['area']+'.'+arc['to']['vertex']):
+                    x2=point[1]
+                    y2=point[2]
+            edgeList.append([map['name']+'.'+arc['from'],arc['to']['area']+'.'+arc['to']['vertex'],arc['weight']])
+            print([map['name']+'.'+arc['from'],arc['to']['area']+'.'+arc['to']['vertex'],arc['weight']])
