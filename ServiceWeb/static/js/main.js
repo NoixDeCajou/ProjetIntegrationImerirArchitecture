@@ -41,13 +41,13 @@ window.onload = function(){
 	initWebService();
 	var canvas = init();
 	draw(canvas);
-	initWebSocket();
+	//initWebSocket();
 };
 
 function init(){
 	canvas = document.getElementById("myCanvas");
-	canvas.width = document.body.clientWidth; //document.width is obsolete
-	canvas.height = document.body.clientHeight; //document.height is obsolete
+	canvas.width = document.body.clientWidth;
+	canvas.height = document.body.clientHeight; 
 
 	widthCanvas = canvas.width;
 	heightCanvas = canvas.height;
@@ -78,36 +78,35 @@ function draw(canvas){
 		var pointB = listVerticesCircle[item.path[1]];
 		console.log(pointA);
 		var c = paperGlobal.path("M "+widthCanvas*pointA.x+","+heightCanvas*pointA.y+" L"+widthCanvas*pointB.x+","+heightCanvas*pointB.y);
-		// Sets the stroke attribute of the circle to white
 		c.attr({stroke:'#888888',"stroke-width":30});
 		c.toBack();
 	});
 
 	//console.log(listVerticesCircle);
 
-		/*****ANIMATIONS*****/
-	// Hover in function
+	/*****ANIMATIONS*****/
+	// Hover in 
 	function hoverIn() {
 		this.animate({
 			r: 40
 		}, 500,"bounce");
 	}
 
-	// Hover out function
+	// Hover out 
 	function hoverOut() {
 		this.animate({
 			r: 30
 		}, 500,"bounce");
 	}
 
-	// Hover in function
+	// Hover in 
 	function hoverInPath() {
 		this.animate({
 			stroke : "#f00"
 		}, 500,"bounce");
 	}
 
-	// Hover out function
+	// Hover out 
 	function hoverOutPath() {
 		this.animate({
 			stroke : "#000000"
@@ -163,7 +162,6 @@ function getPointProche(posX,posY){
 
 	cheminAppelPoint = paperGlobal.path("M "+widthCanvas*posX+","+heightCanvas*posY+" L"+widthCanvas*pointLePlusProche.x+","+heightCanvas*pointLePlusProche.y);
 	marker = paperGlobal.image("/static/img/marker.png", widthCanvas*posX-40, heightCanvas*posY-40, 80, 80);
-	// Sets the stroke attribute of the circle to white
 	cheminAppelPoint.attr({"stroke-dasharray" :"-","stroke-width":3});
 
 	doSendCabRequest(areaName,pointLePlusProche.name);
@@ -183,6 +181,13 @@ function getPointProche(posX,posY){
 function initWebService(){
 	$.getJSON( "/monitor", function( data ) {
 		console.log(data);
+	})
+	.done(function( json ) {
+		initWebSocket();
+	})
+	.fail(function( jqxhr, textStatus, error ) {
+		var err = textStatus + ", " + error;
+		alert( "Request Failed: " + err );
 	});
 }
 
@@ -227,6 +232,7 @@ function onClose(evt)
 function onMessage(evt)
 {
 	console.log("response: " + evt.data + '\n');
+	//faire traitement json
 }
 
 function onError(evt)
