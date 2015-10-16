@@ -4,57 +4,71 @@ Copyright (c) 2013 Dave P.
 '''
 
 import signal, sys, ssl
+import string
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer, SimpleSSLWebSocketServer
 from optparse import OptionParser
 
 clients = []
 
+
 class SimpleChat(WebSocket):
+    def handleMessage(self):
+        #for client in list(clients):
+            # if client != self:
+        #    client.sendMessage(self.address[0] + ' - ' + self.data)
 
-   def handleMessage(self):
-      for client in list(clients):
-         #if client != self:
-         client.sendMessage(self.address[0] + ' - ' + self.data)
+        broadcast(self.address[0] + ' - ' + self.data)
+        broadcast("test broadcast on handleMessage")
 
-   def handleConnected(self):
-      print self.address, 'connected'
-      for client in list(clients):
-         client.sendMessage(self.address[0] + u' - connected')
-      clients.append(self)
+    def handleConnected(self):
+        print self.address, 'connected'
+        for client in list(clients):
+            client.sendMessage(self.address[0] + u' - connected')
+        clients.append(self)
 
-   def handleClose(self):
-      clients.remove(self)
-      print self.address, 'closed'
-      for client in list(clients):
-         client.sendMessage(self.address[0] + u' - disconnected')
-      
+    def handleClose(self):
+        clients.remove(self)
+        print self.address, 'closed'
+        for client in list(clients):
+            client.sendMessage(self.address[0] + u' - disconnected')
+
+
+def broadcast(message):
+    for client in clients:
+        print("in the for of broadcast")
+        client.sendMessage(unicode(message))
+
+
 
 if __name__ == "__main__":
 
-   parser = OptionParser(usage="usage: %prog [options]", version="%prog 1.0")
-   parser.add_option("--host", default='', type='string', action="store", dest="host", help="hostname (localhost)")
-   parser.add_option("--port", default=8000, type='int', action="store", dest="port", help="port (8000)")
-   parser.add_option("--example", default='echo', type='string', action="store", dest="example", help="echo, chat")
-   parser.add_option("--ssl", default=0, type='int', action="store", dest="ssl", help="ssl (1: on, 0: off (default))")
-   parser.add_option("--cert", default='./cert.pem', type='string', action="store", dest="cert", help="cert (./cert.pem)")
-   parser.add_option("--ver", default=ssl.PROTOCOL_TLSv1, type=int, action="store", dest="ver", help="ssl version")
-   
-   (options, args) = parser.parse_args()
+    parser = OptionParser(usage="usage: %prog [options]", version="%prog 1.0")
+    parser.add_option("--host", default='', type='string', action="store", dest="host", help="hostname (localhost)")
+    parser.add_option("--port", default=8000, type='int', action="store", dest="port", help="port (8000)")
+    parser.add_option("--example", default='echo', type='string', action="store", dest="example", help="echo, chat")
+    parser.add_option("--ssl", default=0, type='int', action="store", dest="ssl", help="ssl (1: on, 0: off (default))")
+    parser.add_option("--cert", default='./cert.pem', type='string', action="store", dest="cert",
+                      help="cert (./cert.pem)")
+    parser.add_option("--ver", default=ssl.PROTOCOL_TLSv1, type=int, action="store", dest="ver", help="ssl version")
 
-   cls = SimpleChat
+    (options, args) = parser.parse_args()
+
+    cls = SimpleChat
+
+    if options.ssl == 1:
+        server = SimpleSSLWebSocketServer(options.host, options.port, cls, options.cert, options.cert,
+                                          version=options.ver)
+    else:
+        server = SimpleWebSocketServer(options.host, options.port, cls)
 
 
-   if options.ssl == 1:
-      server = SimpleSSLWebSocketServer(options.host, options.port, cls, options.cert, options.cert, version=options.ver)
-   else:	
-      server = SimpleWebSocketServer(options.host, options.port, cls)
+    def close_sig_handler(signal, frame):
+        server.close()
+        sys.exit()
 
-   def close_sig_handler(signal, frame):
-      server.close()
-      sys.exit()
 
-   signal.signal(signal.SIGINT, close_sig_handler)
+    signal.signal(signal.SIGINT, close_sig_handler)
 
-   print('about to launch server')
+    print('about to launch server')
 
-   server.serveforever()
+    server.serveforever()
