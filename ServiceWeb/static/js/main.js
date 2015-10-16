@@ -205,6 +205,8 @@ function initWebService(){
 
 function initWebSocket()
 {
+	    var ip = location.host;
+    alert(ip);
 	var webSocketAddress = "ws://localhost:8000/"
 	doConnect(webSocketAddress);
 }
