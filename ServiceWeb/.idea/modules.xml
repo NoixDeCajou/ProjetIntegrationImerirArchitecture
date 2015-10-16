@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/ServiceWeb.iml" filepath="$PROJECT_DIR$/.idea/ServiceWeb.iml" />
       <module fileurl="file://$USER_HOME$/Desktop/Taxi_integration/trunk/ServiceWeb/.idea/ServiceWeb.iml" filepath="$USER_HOME$/Desktop/Taxi_integration/trunk/ServiceWeb/.idea/ServiceWeb.iml" />
       <module fileurl="file://$USER_HOME$/Desktop/Taxi_integration/trunk/simple-websocket-server-master/.idea/simple-websocket-server-master.iml" filepath="$USER_HOME$/Desktop/Taxi_integration/trunk/simple-websocket-server-master/.idea/simple-websocket-server-master.iml" />
     </modules>
