@@ -15,6 +15,7 @@ availibilityOfAreas = []
 
 cabFound = False
 
+server = ""
 
 @app.route('/')
 def index():
@@ -66,8 +67,6 @@ def startWebSocketServerIfReady():
 
     print("in startWebSocketServerIfReady")
 
-
-
     allAreasAssigned = True
     for b in availibilityOfAreas:
         if(b == True):
@@ -86,15 +85,18 @@ class BroadcastRunner(Thread):
 
     def run(self):
 
+        print("starting to send maps")
+
         while(True):
             msg = '{"cabInfo":' + json.dumps(rootObject['cabInfo']) + ', '
             msg += '"nbCabRequest":' + str( len(rootObject['cabRequest']) ) + ','
             msg += '"cabRequests":' + json.dumps(rootObject['cabRequest'])
-            msg += '}'+'\n'
+            msg += '}'
 
-            broadcast("broadcast map")
+            broadcast(msg)
+            server.serve()
             print(msg)
-            print("str: " + str(msg))
+            #print("str: " + str(msg))
 
             time.sleep(1)
         pass

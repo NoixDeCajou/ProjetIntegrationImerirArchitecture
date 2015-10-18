@@ -18,7 +18,7 @@ class SimpleChat(WebSocket):
         #    client.sendMessage(self.address[0] + ' - ' + self.data)
 
         broadcast(self.address[0] + ' - ' + self.data)
-        broadcast("test broadcast on handleMessage")
+        # broadcast("test broadcast on handleMessage")
 
     def handleConnected(self):
         print self.address, 'connected'
@@ -36,9 +36,13 @@ class SimpleChat(WebSocket):
 def broadcast(message):
     for client in clients:
         print("in the for of broadcast")
-        client.sendMessage(unicode(message))
+        # send___(client, unicode(message))
+        # client.sendMessage(unicode(message))
+        send___(client, unicode(message))
 
-
+def send___(client, msg):
+    print("in send")
+    client.sendMessage(msg)
 
 if __name__ == "__main__":
 
