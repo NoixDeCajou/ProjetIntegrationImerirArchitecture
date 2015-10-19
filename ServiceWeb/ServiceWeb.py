@@ -4,18 +4,21 @@ from optparse import OptionParser
 from threading import Thread
 from flask import Flask, render_template
 import time
+import SimpleExampleServer
 from SimpleWebSocketServer import SimpleWebSocketServer, SimpleSSLWebSocketServer
 from SimpleExampleServer import SimpleChat, broadcast
 from pprint import pprint
 
 app = Flask(__name__)
 
-rootObject = ""
+
 availibilityOfAreas = []
 
 cabFound = False
 
 server = ""
+
+
 
 @app.route('/')
 def index():
@@ -50,7 +53,7 @@ def monitor_page():
             availibilityOfAreas[i] = False
             print("monitor found")
             startWebSocketServerIfReady()
-            return '{"error":false, "portWebSocket":8000, "id":' + str(i + 1) + ', "map":' + json.dumps(rootObject['rootObject']) + ' }'
+            return '{"error":false, "portWebSocket":8000, "id":' + str(i + 1) + ', "map":' + json.dumps(SimpleExampleServer.rootObject['rootObject']) + ' }'
 
         i += 1
     print("monitor rejected")
@@ -79,6 +82,7 @@ def startWebSocketServerIfReady():
         broadcaster.start()
 
 
+
 class BroadcastRunner(Thread):
     def __init__(self):
         Thread.__init__(self)
@@ -88,9 +92,9 @@ class BroadcastRunner(Thread):
         print("starting to send maps")
 
         while(True):
-            msg = '{"cabInfo":' + json.dumps(rootObject['cabInfo']) + ', '
-            msg += '"nbCabRequest":' + str( len(rootObject['cabRequest']) ) + ','
-            msg += '"cabRequests":' + json.dumps(rootObject['cabRequest'])
+            msg = '{"cabInfo":' + json.dumps(SimpleExampleServer.rootObject['cabInfo']) + ', '
+            msg += '"nbCabRequest":' + str( len(SimpleExampleServer.rootObject['cabRequest']) ) + ', '
+            msg += '"cabRequests":' + json.dumps(SimpleExampleServer.rootObject['cabRequest'])
             msg += '}'
 
             broadcast(msg)
@@ -117,12 +121,13 @@ class ServiceRunner(Thread):
 
 if __name__ == '__main__':
 
+    # global SimpleExampleServer.rootObject
 
     with open('rootObject.json') as data_file:
-        rootObject = json.load(data_file)
-        pprint(rootObject)
+        SimpleExampleServer.rootObject = json.load(data_file)
+        pprint(SimpleExampleServer.rootObject)
 
-    for area in rootObject['rootObject']['areas']:
+    for area in SimpleExampleServer.rootObject['rootObject']['areas']:
         availibilityOfAreas.append(True)
 
     print("before run")
