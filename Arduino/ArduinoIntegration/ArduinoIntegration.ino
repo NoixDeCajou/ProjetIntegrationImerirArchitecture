@@ -18,6 +18,7 @@ byte mac[] = {  0x98, 0x4F, 0xEE, 0x05, 0x34, 0x14 };
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 int lcd_key     = 0;
 int adc_key_in  = 0;
+//
 
 
 IPAddress server(192,168,1,69); // serveur
@@ -38,12 +39,22 @@ char inString[32]; // string for incoming serial data
 int stringPos = 0; // string index counter
 boolean startRead = false; // is reading?
 
+////
+int id;
+boolean isFree = true;
+int requestNumber = 0;
+String nextRequestVertice = "";
+String areaRequest = "";
+
 
 /*****Definition Fonction******/
-int parseJson(char *jsonString) ;
+int getHttpInfo(char *jsonString, char*) ;
 void initWebSocket(int);
 int read_LCD_buttons();
-
+int getRequestnumber(char *jsonString);
+char* getNextRequest(char *jsonString);
+char* getCurrentPosition(char *jsonString);
+char* getAreaRequest(char *jsonString);
 /******************************/
 
 
@@ -87,7 +98,8 @@ void setup() {
   char charJsonHttpGet[size];
   jsonHttpGet.toCharArray(charJsonHttpGet,size);
   char* jsonString = charJsonHttpGet;
-  int value = parseJson(jsonString);
+  int value = getHttpInfo(jsonString,"portWebSocket");
+  id = getHttpInfo(jsonString,"id");
 
     if (value) {
         Serial.println("Successfully Parsed: ");
@@ -99,13 +111,40 @@ void setup() {
     } else {
         Serial.println("There was some problem in parsing the JSON");
     }
-
+  lcd.clear();
 }
 
 void loop() {
- //WSclient.monitor();
- lcd.setCursor(9,1);            // move cursor to second line "1" and 9 spaces over
- lcd.print(millis()/1000);      // display seconds elapsed since power-up
+  //lcd.clear();
+  
+  WSclient.monitor();
+  
+  
+  lcd.setCursor(0,0);
+  if(isFree == true){
+    lcd.print("                ");
+    lcd.setCursor(0,0);
+    lcd.print("FREE");
+    
+    lcd.setCursor(15,0);    
+    if(requestNumber == 0){
+      lcd.print("0");
+    }else{
+      lcd.print(requestNumber);
+      lcd.setCursor(0,1);
+      lcd.print("                ");
+      lcd.setCursor(0,1);
+      lcd.print(areaRequest+" "+nextRequestVertice);
+    } 
+    
+  }else{
+    lcd.print("BUSY");    
+  }
+  
+
+  
+  
+
 
 
  lcd.setCursor(0,1);            // move to the begining of the second line
@@ -145,12 +184,11 @@ void loop() {
      }
      case btnNONE:
      {
-     lcd.print("NONE  ");
+     //lcd.print("NONE  ");
      Serial.print("NONE ");
      break;
      }
  }
- WSclient.monitor();
 }
 
 String readPage(){
@@ -184,18 +222,15 @@ String readPage(){
           return inString;
 
         }
-
       }
     }
-
   }
-
 }
 
 
 
 
-int parseJson(char *jsonString) 
+int getHttpInfo(char *jsonString, char *demande) 
 {
     int value;
 
@@ -205,7 +240,7 @@ int parseJson(char *jsonString)
 
     if (root != NULL) {
         Serial.println("Parsed successfully 1 " );
-        aJsonObject* query = aJson.getObjectItem(root, "portWebSocket"); 
+        aJsonObject* query = aJson.getObjectItem(root, demande); 
                     
         if (query != NULL) {
             Serial.println("Parsed successfully 5 " );
@@ -222,6 +257,106 @@ int parseJson(char *jsonString)
     }
 }
 
+int getRequestnumber(char *jsonString){
+    int value;
+
+    aJsonObject* root = aJson.parse(jsonString);
+    
+    Serial.println("TEST ROOT");
+
+    if (root != NULL) {
+        Serial.println("Parsed successfully 1 " );
+        aJsonObject* nbCabRequest = aJson.getObjectItem(root, "nbCabRequest"); 
+                    
+        if (nbCabRequest != NULL) {
+            Serial.println("Parsed successfully 5 " );
+            value = nbCabRequest->valueint;
+        }
+    }else{
+      Serial.println("root null");
+    }
+
+    if (value) {
+        return value;
+    } else {
+        return NULL;
+    }  
+}
+
+
+char* getNextRequest(char *jsonString){
+ char* value;
+
+    aJsonObject* root = aJson.parse(jsonString);
+
+    if (root != NULL) {
+        //Serial.println("Parsed successfully 1 " );
+        aJsonObject* cabRequests = aJson.getObjectItem(root, "cabRequests"); 
+        
+        if (cabRequests != NULL) {
+          //Serial.println("Parsed successfully 1 " );
+          aJsonObject* firstCabRequests = aJson.getArrayItem(cabRequests, 0); 
+
+          if (firstCabRequests != NULL) {
+              //Serial.println("Parsed successfully 2 " );
+              aJsonObject* location = aJson.getObjectItem(firstCabRequests, "location"); 
+  
+              if (location != NULL) {
+                  //Serial.println("Parsed successfully 3 " );
+                  aJsonObject* subLocation = aJson.getObjectItem(location, "location"); 
+                  
+                  if (subLocation != NULL) {
+                    //Serial.println("Parsed successfully 3 " );
+                    value = subLocation->valuestring;
+                }
+              }
+          }
+       }
+    }
+
+    if (value) {
+        return value;
+    } else {
+        return NULL;
+    }  
+}
+
+char* getAreaRequest(char *jsonString){
+ char* value;
+
+    aJsonObject* root = aJson.parse(jsonString);
+
+        if (root != NULL) {
+        //Serial.println("Parsed successfully 1 " );
+        aJsonObject* cabRequests = aJson.getObjectItem(root, "cabRequests"); 
+        
+        if (cabRequests != NULL) {
+          //Serial.println("Parsed successfully 1 " );
+          aJsonObject* firstCabRequests = aJson.getArrayItem(cabRequests, 0); 
+
+          if (firstCabRequests != NULL) {
+              //Serial.println("Parsed successfully 2 " );
+              aJsonObject* location = aJson.getObjectItem(firstCabRequests, "location"); 
+  
+              if (location != NULL) {
+                  //Serial.println("Parsed successfully 3 " );
+                  aJsonObject* area = aJson.getObjectItem(location, "area"); 
+                  
+                  if (area != NULL) {
+                    //Serial.println("Parsed successfully 3 " );
+                    value = area->valuestring;
+                }
+              }
+          }
+       }
+    }
+
+    if (value) {
+        return value;
+    } else {
+        return NULL;
+    }  
+}
 
 // read the buttons
 int read_LCD_buttons()
@@ -266,8 +401,11 @@ void onOpen(WebSocketClient client) {
 }
 
 void onMessage(WebSocketClient client, char* message) {
-  Serial.println("EXAMPLE: onMessage()");
-  Serial.print("Received: "); Serial.println(message);
+  requestNumber = getRequestnumber(message);
+  nextRequestVertice = getNextRequest(message);
+  areaRequest = getAreaRequest(message);
+  Serial.print("NombreRequest = ");Serial.println(requestNumber);
+  Serial.print("NextRequest = ");Serial.println(getNextRequest(message));
 }
 
 void onError(WebSocketClient client, char* message) {
