@@ -45,6 +45,11 @@ boolean isFree = true;
 int requestNumber = 0;
 String nextRequestVertice = "";
 String areaRequest = "";
+String currentPosition="";
+int idRequest;
+
+String destinationArea = "";
+String destinationVertice = "";
 
 
 /*****Definition Fonction******/
@@ -52,6 +57,7 @@ int getHttpInfo(char *jsonString, char*) ;
 void initWebSocket(int);
 int read_LCD_buttons();
 int getRequestnumber(char *jsonString);
+int getIdRequest(char *jsonString);
 char* getNextRequest(char *jsonString);
 char* getCurrentPosition(char *jsonString);
 char* getAreaRequest(char *jsonString);
@@ -135,10 +141,66 @@ void loop() {
       lcd.print("                ");
       lcd.setCursor(0,1);
       lcd.print(areaRequest+" "+nextRequestVertice);
+      //Serial.print("ID REQUEST :");Serial.println(idRequest);
+      lcd_key = read_LCD_buttons();  // read the buttons
+
+       switch (lcd_key)               // depending on which button was pushed, we perform an action
+       {
+         case btnLEFT:
+           {
+             String messageToServer = "{\"id\" : ";messageToServer+= id;
+                    messageToServer+= " , \"idCabRequest\" : "; messageToServer+= idRequest;
+                    messageToServer+= " , \"accepted\" : false }";
+             Serial.println(messageToServer);
+             
+            int size = messageToServer.length()+1;
+            char charMessageToServer[size];
+            messageToServer.toCharArray(charMessageToServer,size);
+            char* messageToServerFinal = charMessageToServer;
+             
+             WSclient.send(messageToServerFinal);
+           break;
+           }
+         case btnSELECT:
+           {
+              destinationArea = areaRequest;
+              destinationVertice = nextRequestVertice;
+              
+              isFree = false;
+             
+             String messageToServer = "{\"id\" : ";messageToServer+= id;
+                    messageToServer+= " , \"idCabRequest\" : "; messageToServer+= idRequest;
+                    messageToServer+= " , \"accepted\" : true }";
+             Serial.println(messageToServer);
+             
+            int size = messageToServer.length()+1;
+            char charMessageToServer[size];
+            messageToServer.toCharArray(charMessageToServer,size);
+            char* messageToServerFinal = charMessageToServer;
+             
+             WSclient.send(messageToServerFinal);
+           break;
+           }
+           case btnNONE:
+           {
+           break;
+           }
+       }
     } 
-    
+  
   }else{
-    lcd.print("BUSY");    
+    if( currentPosition == destinationVertice ){
+      isFree = true;
+    }else{
+       lcd.print("BUSY");   
+       lcd.setCursor(15,0);  
+       lcd.print(requestNumber);
+       lcd.setCursor(0,1);
+       lcd.print("                ");
+       lcd.setCursor(0,1);
+       lcd.print(currentPosition);
+       
+     }
   }
   
 
@@ -147,7 +209,7 @@ void loop() {
 
 
 
- lcd.setCursor(0,1);            // move to the begining of the second line
+ /*lcd.setCursor(0,1);            // move to the begining of the second line
  lcd_key = read_LCD_buttons();  // read the buttons
 
  switch (lcd_key)               // depending on which button was pushed, we perform an action
@@ -188,7 +250,7 @@ void loop() {
      Serial.print("NONE ");
      break;
      }
- }
+ }*/
 }
 
 String readPage(){
@@ -358,6 +420,89 @@ char* getAreaRequest(char *jsonString){
     }  
 }
 
+
+int getIdRequest(char *jsonString){
+ int value;
+
+    aJsonObject* root = aJson.parse(jsonString);
+
+        if (root != NULL) {
+        //Serial.println("Parsed successfully 1 " );
+        aJsonObject* cabRequests = aJson.getObjectItem(root, "cabRequests"); 
+        
+        if (cabRequests != NULL) {
+          //Serial.println("Parsed successfully 1 " );
+          aJsonObject* firstCabRequests = aJson.getArrayItem(cabRequests, 0); 
+  
+              if (firstCabRequests != NULL) {
+                  //Serial.println("Parsed successfully 3 " );
+                  aJsonObject* idCabRequest = aJson.getObjectItem(firstCabRequests, "idCabRequest"); 
+                  
+                  if (idCabRequest != NULL) {
+                    //Serial.println("Parsed successfully 3 " );
+                    value = idCabRequest->valueint;
+                }
+              
+          }
+       }
+    }
+
+    if (value) {
+        return value;
+    } else {
+        return NULL;
+    }  
+}
+
+
+char* getCurrentPosition(char *jsonString){
+  char* value;
+
+    aJsonObject* root = aJson.parse(jsonString);
+
+        if (root != NULL) {
+        //Serial.println("Parsed successfully 1 " );
+        aJsonObject* cabInfo = aJson.getObjectItem(root, "cabInfo"); 
+
+          if (cabInfo != NULL) {
+              //Serial.println("Parsed successfully 2 " );
+              aJsonObject* locNow = aJson.getObjectItem(cabInfo, "loc_now"); 
+  
+              if (locNow != NULL) {
+                  //Serial.println("Parsed successfully 3 " );
+                  aJsonObject* locationType = aJson.getObjectItem(locNow, "locationType"); 
+                  
+                  if (locationType != NULL) {
+                    String localisationTypeString = locationType->valuestring;
+                    if(localisationTypeString == "vertex"){
+                    aJsonObject* location = aJson.getObjectItem(locNow, "location");
+                    
+                    if (location != NULL) {
+                      value = location->valuestring;
+                    }
+              }else if(localisationTypeString == "street"){
+                     aJsonObject* location = aJson.getObjectItem(locNow, "location");
+                     if (location != NULL) {
+                      aJsonObject* from = aJson.getObjectItem(location, "from");
+                       if (from != NULL) {
+                         value = from->valuestring;
+                       }                     
+                    }
+                }
+               }
+              }
+          }
+       
+    }
+
+    if (value) {
+        return value;
+    } else {
+        return NULL;
+    }    
+}
+  
+
 // read the buttons
 int read_LCD_buttons()
 {
@@ -397,13 +542,16 @@ void initWebSocket(){
 
 void onOpen(WebSocketClient client) {
   Serial.println("EXAMPLE: onOpen()");
-  client.send("Hello World! nigga");
+  WSclient.send("Hello World! nigga");
 }
 
 void onMessage(WebSocketClient client, char* message) {
+  idRequest = getIdRequest(message);
   requestNumber = getRequestnumber(message);
   nextRequestVertice = getNextRequest(message);
   areaRequest = getAreaRequest(message);
+  currentPosition = getCurrentPosition(message);
+  Serial.print("CURRENT POSITION = ");Serial.println(currentPosition);
   Serial.print("NombreRequest = ");Serial.println(requestNumber);
   Serial.print("NextRequest = ");Serial.println(getNextRequest(message));
 }
