@@ -31,10 +31,11 @@ char* parseJson(char *jsonString) ;
 
 // Json string to parse
 //char jsonString[] = "{\"error\":\"test\", \"portWebSocket\":8000, \"id\":0}";
-//char jsonString[] = "{\"query\":{\"count\":1,\"created\":\"2012-08-04T14:46:03Z\",\"lang\":\"en-US\",\"results\":{\"item\":{\"title\":\"false\"}}}}";
+//String monString = "{\"query\":{\"count\":1,\"created\":\"2012-08-04T14:46:03Z\",\"lang\":\"en-US\",\"results\":{\"item\":{\"title\":\"false\"}}}}";
 
 void setup() {
-  String monString = "{\"error\":\"test\", \"portWebSocket\":8000, \"id\":0}";
+  String monString = "{\"query\": {\"count\": 1,\"created\": \"2012-08-04T14: 46: 03Z\",\"lang\": \"en-US\", \"results\": {\"item\": [{\"title\": \"test1\"},{\"title\": \"test2\"}]}}}";
+  //String monString = "{\"error\":\"test\", \"portWebSocket\":8000, \"id\":0}";
 int size = monString.length()+1;
 char test[size];
 monString.toCharArray(test,size);
@@ -75,31 +76,43 @@ char* parseJson(char *jsonString)
     
     Serial.println("TEST ROOT");
 
-    if (root != NULL) {
-        Serial.println("Parsed successfully 1 " );
-        aJsonObject* query = aJson.getObjectItem(root, "error"); 
+if (root != NULL) {
+        //Serial.println("Parsed successfully 1 " );
+        aJsonObject* query = aJson.getObjectItem(root, "query"); 
 
-        //if (query != NULL) {
-        //    Serial.println("Parsed successfully 2 " );
-        //    aJsonObject* results = aJson.getObjectItem(query, "created"); 
+        if (query != NULL) {
+            //Serial.println("Parsed successfully 2 " );
+            aJsonObject* results = aJson.getObjectItem(query, "results"); 
 
-            /*if (results != NULL) {
-                Serial.println("Parsed successfully 3 " );
+            if (results != NULL) {
+                //Serial.println("Parsed successfully 3 " );
                 aJsonObject* item = aJson.getObjectItem(results, "item"); 
 
                 if (item != NULL) {
-                    Serial.println("Parsed successfully 4 " );
-                    aJsonObject* title = aJson.getObjectItem(item, "title"); 
+                    //Serial.println("Parsed successfully 4 " );
+                    aJsonObject* item0 = aJson.getArrayItem(item, 0); 
                     
-                    */if (query != NULL) {
-                        Serial.println("Parsed successfully 5 " );
-                        value = query->valuestring;
-                    }
-                //}
-            //}
-        //}
+                if (item0 != NULL) {
+                    //Serial.println("Parsed successfully 4 " );
+                    aJsonObject* title = aJson.getObjectItem(item0, "title"); 
+                    
+                    if (title != NULL) {
+                        //Serial.println("Parsed successfully 5 " );
+                        value = title->valuestring;
+                    }else{
+      Serial.println("title NULL TAMER");
+      }
+                }else{
+      Serial.println("item NULL TAMER");
+      }
+            }else{
+      Serial.println("results NULL TAMER");
+      }
+        }else{
+      Serial.println("query NULL TAMER");
+      }
     }else{
-      Serial.println("root null");
+      Serial.println("ROOT NULL TAMER");
       }
 
     if (value) {
