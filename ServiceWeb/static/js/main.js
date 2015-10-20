@@ -153,7 +153,7 @@ function appelSurPoint(caller,name){
 	doSendCabRequest(areaName,name);
 	//alert("Un Taxi a été appelé sur le point "+name);
 	$("#lastNotification").html("Un Taxi a été appelé sur le point "+name);
-	/**************/
+	/**************
 		console.log(listVerticesCircle);
 		console.log("clik on body");
 		var myx = widthCanvas*listVerticesCircle[name].x-25;
@@ -190,7 +190,7 @@ function getPointProche(posX,posY){
 	doSendCabRequest(areaName,pointLePlusProche.name);
 	$("#lastNotification").html("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
 
-	/*************************/
+	/*************************
 		console.log(listVerticesCircle);
 		console.log("clik on body");
 		var myx = widthCanvas*listVerticesCircle[pointLePlusProche.name].x-25;
@@ -336,13 +336,13 @@ function doSendCabRequest(areaName,vertexName)
 }
 
 
-	$("body").click(function() {
-		console.log(listVerticesCircle);
-		console.log("clik on body");
-		var myx = widthCanvas*listVerticesCircle["b"].x-25;
-		var myy = heightCanvas*listVerticesCircle["b"].y-25;
-		myx=Math.round(myx);
-		myy=Math.round(myy);
-		console.log(myx +"  ,  "+myy);
-		taxi.animate({x: myx , y: myy}, 1000, "<>");
-	});
+	// $("body").click(function() {
+	// 	console.log(listVerticesCircle);
+	// 	console.log("clik on body");
+	// 	var myx = widthCanvas*listVerticesCircle["b"].x-25;
+	// 	var myy = heightCanvas*listVerticesCircle["b"].y-25;
+	// 	myx=Math.round(myx);
+	// 	myy=Math.round(myy);
+	// 	console.log(myx +"  ,  "+myy);
+	// 	taxi.animate({x: myx , y: myy}, 1000, "<>");
+	// });
