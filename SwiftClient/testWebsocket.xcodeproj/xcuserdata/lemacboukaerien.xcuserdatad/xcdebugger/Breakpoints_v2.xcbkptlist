@@ -2,4 +2,69 @@
 <Bucket
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "testWebsocket/ViewController.swift"
+            timestampString = "467044105.441831"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "7"
+            endingLineNumber = "7"
+            landmarkName = "ViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "testWebsocket.ViewController.__deallocating_deinit"
+                  moduleName = "testWebsocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lemacboukaerien/ProjetIntegrationImerirArchitecture/SwiftClient/testWebsocket/ViewController.swift"
+                  timestampString = "467044105.481496"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "testWebsocket.ViewController.init (testWebsocket.ViewController.Type)(nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;ObjectiveC.NSBundle&gt;) -&gt; testWebsocket.ViewController"
+                  moduleName = "testWebsocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lemacboukaerien/ProjetIntegrationImerirArchitecture/SwiftClient/testWebsocket/ViewController.swift"
+                  timestampString = "467044105.483129"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "57">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "testWebsocket.ViewController.init (testWebsocket.ViewController.Type)(coder : ObjectiveC.NSCoder) -&gt; Swift.Optional&lt;testWebsocket.ViewController&gt;"
+                  moduleName = "testWebsocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lemacboukaerien/ProjetIntegrationImerirArchitecture/SwiftClient/testWebsocket/ViewController.swift"
+                  timestampString = "467044105.483341"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

@@ -7,6 +7,8 @@ import Alamofire
 class ViewController : UIViewController, WebSocketDelegate {
     
     var socket : WebSocket!
+    
+    var portWebSocket : Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,15 +18,28 @@ class ViewController : UIViewController, WebSocketDelegate {
         Alamofire.request(.GET, "http://172.30.1.120:5000/monitor")
             .responseString { response in
                 //print("Success: \(response.result.isSuccess)")
-                print("Response String: \(response.result.value)")
+                //print("Response String: \(response.result.value)")
+                
+                if let data = response.result.value!.dataUsingEncoding(NSUTF8StringEncoding)
+                {
+                    let json = JSON(data: data)
+                    
+                    print(json)
+                    
+                    self.portWebSocket=json["portWebSocket"].intValue
+                    
+                    for item in json["people"].arrayValue {
+                        print(item["firstName"].stringValue)
+                    }
+                }
                 print("--------------------")
+                
+                //self.socket = WebSocket(url: NSURL(string: "ws://localhost:8080/")!, protocols: ["chat", "superchat"])
+                self.socket = WebSocket(url: NSURL(string: "ws://172.30.1.120:"+self.portWebSocket.description+"/")!, protocols: ["chat", "superchat"])
+                
+                self.socket.delegate = self
+                self.socket.connect()
         }
-        
-        //self.socket = WebSocket(url: NSURL(string: "ws://localhost:8080/")!, protocols: ["chat", "superchat"])
-        self.socket = WebSocket(url: NSURL(string: "ws://172.30.1.120:8000/")!, protocols: ["chat", "superchat"])
-        
-        socket.delegate = self
-        socket.connect()
     }
 
     // MARK: Websocket Delegate Methods.
