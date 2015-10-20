@@ -327,10 +327,10 @@ function onError(evt)
 function doSendCabRequest(areaName,vertexName)
 {
 	var message = '{"id": '+id
-				+' , "cabRequest": [{"area": "'+areaName
+				+' , "cabRequest": {"area": "'+areaName
 				+'","location": {"area": "'+areaName
 				+'","locationType": "vertex","location": "'+vertexName
-				+'"}}]}';
+				+'"}}}';
 	console.log("Message envoyé : " + message);
 	websocket.send(message);
 }

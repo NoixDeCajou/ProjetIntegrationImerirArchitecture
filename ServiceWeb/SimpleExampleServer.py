@@ -17,7 +17,7 @@ from optparse import OptionParser
 
 clients = []
 
-idRequestMax = 2
+idRequestMax = 1
 
 rootObject = ""
 
@@ -34,7 +34,7 @@ class SimpleChat(WebSocket):
 
         print("in handleMessage")
 
-        broadcast(self.address[0] + ' - ' + self.data)
+        #broadcast(self.address[0] + ' - ' + self.data)
         # broadcast("test broadcast on handleMessage")
 
         messageReceived(self.data)
@@ -85,6 +85,9 @@ def messageReceived(msg):
 
             accepted = jsonReceived['accepted']
 
+
+
+
             if accepted == True:
                 # request idRequest accepted
                 # faire recherche de plus court chemin
@@ -101,6 +104,8 @@ def messageReceived(msg):
 
 
                 for req in rootObject['cabRequest']:
+                    theShortestPath = []
+
                     if req['idCabRequest'] == idRequest:
                         theShortestPath = Dijkstra.doDijkstra(graphMap,
                                                               unicode(str(
@@ -191,8 +196,13 @@ class MoverRunner(Thread):
 
             # go to point
 
-            rootObject['cabInfo']['loc_now']['area'] = unicode( ".".join( (point.split('.'))[-1] ) )
+            print (point.split('.'))
+            print("\".\".join( (point.split('.'))[:-1] ) ")
+            print ( unicode( ".".join( (point.split('.'))[:-1] ) ) )
+            rootObject['cabInfo']['loc_now']['area'] = unicode( ".".join( (point.split('.'))[:-1] ) )
 
+            print("(point.split('.'))[-1] ")
+            print ( (point.split('.'))[-1] )
             rootObject['cabInfo']['loc_now']['location'] = unicode( (point.split('.'))[-1] )
 
 
