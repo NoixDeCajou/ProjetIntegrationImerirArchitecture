@@ -101,12 +101,6 @@ def messageReceived(msg):
 
 
                 for req in rootObject['cabRequest']:
-
-                    print("(req['idCabRequest', idRequest, req['idCabRequest'] == idRequest   :")
-                    print(req['idCabRequest'])
-                    print(idRequest)
-                    print(req['idCabRequest'] == idRequest)
-
                     if req['idCabRequest'] == idRequest:
                         theShortestPath = Dijkstra.doDijkstra(graphMap,
                                                               unicode(str(
@@ -128,7 +122,7 @@ def messageReceived(msg):
             # supprimer la requete avec l'id idRequest de la liste de requetes
             for req in rootObject["cabRequest"]:
 
-                if req["idCabRequest"] == idRequest:
+                if req["idCabRequest"] == jsonReceived['id']:
                     rootObject["cabRequest"].remove(req)
                     pass
                 pass
