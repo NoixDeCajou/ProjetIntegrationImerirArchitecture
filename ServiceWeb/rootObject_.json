@@ -133,9 +133,9 @@
             "idCabRequest":1,
             "area": "Quartier Sud",
             "location": {
-                "area": "Quartier Nord",
+                "area": "Quartier Sud",
                 "locationType": "vertex",
-                "location": "h"
+                "location": "a"
             }
         }
     ]

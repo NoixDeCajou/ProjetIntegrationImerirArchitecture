@@ -580,7 +580,8 @@ class SimpleWebSocketServer(object):
 
 
     def serve(self):
-        print("in serve")
+        print("in serve:\n")
+
         writers = []
         for fileno in self.listeners:
             try:

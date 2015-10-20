@@ -74,3 +74,17 @@ def getGraphe(jsonmap):
         pass
 
     return g
+
+def getPoids(pointA, pointB):
+
+    for edge in edgeList:
+
+        if edge[0] == unicode(pointA) and edge[1] == unicode(pointB):
+            print(edge[2])
+            return edge[2]
+        elif edge[0] == unicode(pointB) and edge[1] == unicode(pointA):
+            print(edge[2])
+            return edge[2]
+
+
+    return 0

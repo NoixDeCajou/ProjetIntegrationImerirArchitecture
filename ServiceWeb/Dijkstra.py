@@ -168,41 +168,12 @@ def doDijkstra(graph, start, end):
     print(target)
 
     path = [target.get_id()]
-    print("path")
-    print (path)
-    shortest(target, path)
-
-
-    print 'The shortest path : %s' %(path[::-1])
-
-
-if __name__ == '__main__':
-
-
-    g = Graph()
-
-    g.add_vertex('aa')
-    g.add_vertex('b')
-    g.add_vertex('c')
-    g.add_vertex('d')
-    g.add_vertex('e')
-
-    g.add_edge('aa', 'b', 1)
-    g.add_edge('b', 'c', 1)
-    g.add_edge('b', 'd', 3)
-    g.add_edge('d', 'e', 1)
-
-    print 'Graph data:'
-    for v in g:
-        for w in v.get_connections():
-            vid = v.get_id()
-            wid = w.get_id()
-            print '( %s , %s, %3d)'  % ( vid, wid, v.get_weight(w))
-
-    dijkstra(g, g.get_vertex('aa'), g.get_vertex('e'))
-
-    target = g.get_vertex('e')
-    path = [target.get_id()]
     shortest(target, path)
 
     print 'The shortest path : %s' %(path[::-1])
+
+    print("in dijktstra:")
+    pprint((path[::-1]))
+
+    return (path[::-1])
+
