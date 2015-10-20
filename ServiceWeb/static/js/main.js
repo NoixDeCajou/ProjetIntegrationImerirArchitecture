@@ -5,13 +5,16 @@
 *
 *
 /***********************************/
+var id;
 
-var jsonCity = '{"areas":[{"name":"Quartier Nord","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"m","x":0.5,"y":0.5},{"name":"b","x":0.5,"y":1}],"streets":[{"name":"mb","path":["m","b"],"oneway":false}],"bridges":[{"from":"b","to":{"area":"Quartier Sud","vertex":"h"},"weight":2}]}},{"name":"Quartier Sud","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"a","x":1,"y":1},{"name":"m","x":0,"y":1},{"name":"h","x":0.5,"y":0}],"streets":[{"name":"ah","path":["a","h"],"oneway":false},{"name":"mh","path":["m","h"],"oneway":false}],"bridges":[{"from":"h","to":{"area":"Quartier Nord","vertex":"b"},"weight":2}]}}]}';
-jsonCity = data = $.parseJSON(jsonCity);
+var jsonCity;
+	var firstArea;
+	var areaName; //= '{"areas":[{"name":"Quartier Nord","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"m","x":0.5,"y":0.5},{"name":"b","x":0.5,"y":1}],"streets":[{"name":"mb","path":["m","b"],"oneway":false}],"bridges":[{"from":"b","to":{"area":"Quartier Sud","vertex":"h"},"weight":2}]}},{"name":"Quartier Sud","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"a","x":1,"y":1},{"name":"m","x":0,"y":1},{"name":"h","x":0.5,"y":0}],"streets":[{"name":"ah","path":["a","h"],"oneway":false},{"name":"mh","path":["m","h"],"oneway":false}],"bridges":[{"from":"h","to":{"area":"Quartier Nord","vertex":"b"},"weight":2}]}}]}';
+/*jsonCity = data = $.parseJSON(jsonCity);
 console.log(jsonCity);
 var firstArea = jsonCity.areas[0];
 var areaName = firstArea.name;
-$("#areaName").append(areaName);
+$("#areaName").append(areaName);*/
 
 var paperGlobal;
 
@@ -39,12 +42,15 @@ window.onresize=function(){
 
 window.onload = function(){
 	initWebService();
-	var canvas = init();
-	draw(canvas);
-	//initWebSocket();
+
 };
 
 function init(){
+	console.log(jsonCity);
+	firstArea = jsonCity.areas[0];
+	areaName = firstArea.name;
+	$("#areaName").append(areaName);
+
 	canvas = document.getElementById("myCanvas");
 	canvas.width = document.body.clientWidth;
 	canvas.height = document.body.clientHeight; 
@@ -77,6 +83,9 @@ function draw(canvas){
 		var pointA = listVerticesCircle[item.path[0]];
 		var pointB = listVerticesCircle[item.path[1]];
 		console.log(pointA);
+		var peinture = paperGlobal.path("M "+widthCanvas*pointA.x+","+heightCanvas*pointA.y+" L"+widthCanvas*pointB.x+","+heightCanvas*pointB.y);
+		peinture.attr({"stroke-dasharray" :"-","stroke-width":3,stroke:'#FFFFFF',});
+		peinture.toBack();
 		var c = paperGlobal.path("M "+widthCanvas*pointA.x+","+heightCanvas*pointA.y+" L"+widthCanvas*pointB.x+","+heightCanvas*pointB.y);
 		c.attr({stroke:'#888888',"stroke-width":30});
 		c.toBack();
@@ -162,7 +171,7 @@ function getPointProche(posX,posY){
 
 	cheminAppelPoint = paperGlobal.path("M "+widthCanvas*posX+","+heightCanvas*posY+" L"+widthCanvas*pointLePlusProche.x+","+heightCanvas*pointLePlusProche.y);
 	marker = paperGlobal.image("/static/img/marker.png", widthCanvas*posX-40, heightCanvas*posY-40, 80, 80);
-	cheminAppelPoint.attr({"stroke-dasharray" :"-","stroke-width":3});
+	cheminAppelPoint.attr({"stroke-dasharray" :".","stroke-width":3});
 
 	doSendCabRequest(areaName,pointLePlusProche.name);
 	$("#lastNotification").html("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
@@ -179,11 +188,25 @@ function getPointProche(posX,posY){
 *
 /***********************************/
 function initWebService(){
+	var webSocketPort;
 	$.getJSON( "/monitor", function( data ) {
-		console.log(data);
+
 	})
 	.done(function( json ) {
-		initWebSocket();
+		if(json.error == false){
+
+			id = json.id;
+			webSocketPort = json.portWebSocket;
+			jsonCity = json.map;
+
+			initWebSocket(webSocketPort);
+
+			var canvas = init();
+			draw(canvas);
+
+		}else{
+			alert(json.explication)
+		}
 	})
 	.fail(function( jqxhr, textStatus, error ) {
 		var err = textStatus + ", " + error;
@@ -203,13 +226,13 @@ function initWebService(){
 *
 /***********************************/
 
-function initWebSocket()
+function initWebSocket(webSocketPort)
 {
 	var ip = location.host;
 	ip = ip.split(":");
 	ip = ip[0];
-	alert(ip);
-	var webSocketAddress = "ws://"+ip+":8000/"
+	//alert(ip);
+	var webSocketAddress = "ws://"+ip+":"+webSocketPort+"/"
 	doConnect(webSocketAddress);
 }
 
@@ -230,13 +253,15 @@ function onOpen(evt)
 
 function onClose(evt)
 {
+	websocket.close();
 	console.log("disconnected\n" + evt);
 }
 
 function onMessage(evt)
 {
-	console.log("response: " + evt.data + '\n');
-	//faire traitement json
+	console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
+	var info = evt.data;
+	console.log(info.loc_now);
 }
 
 function onError(evt)
@@ -249,10 +274,11 @@ function onError(evt)
 
 function doSendCabRequest(areaName,vertexName)
 {
-	var message = '{"cabRequest": [{"area": "'+areaName+'","location": {"area": "'+areaName+'","locationType": "vertex","location": "'+vertexName+'"}}]}';
+	var message = '{"id": '+id
+				+' , "cabRequest": [{"area": "'+areaName
+				+'","location": {"area": "'+areaName
+				+'","locationType": "vertex","location": "'+vertexName
+				+'"}}]}';
+	console.log("Message envoyé : " + message);
 	websocket.send(message);
-}
-
-function doDisconnect() {
-	websocket.close();
 }
