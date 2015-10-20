@@ -8,13 +8,8 @@
 var id;
 
 var jsonCity;
-	var firstArea;
-	var areaName; //= '{"areas":[{"name":"Quartier Nord","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"m","x":0.5,"y":0.5},{"name":"b","x":0.5,"y":1}],"streets":[{"name":"mb","path":["m","b"],"oneway":false}],"bridges":[{"from":"b","to":{"area":"Quartier Sud","vertex":"h"},"weight":2}]}},{"name":"Quartier Sud","map":{"weight":{"w":1,"h":1},"vertices":[{"name":"a","x":1,"y":1},{"name":"m","x":0,"y":1},{"name":"h","x":0.5,"y":0}],"streets":[{"name":"ah","path":["a","h"],"oneway":false},{"name":"mh","path":["m","h"],"oneway":false}],"bridges":[{"from":"h","to":{"area":"Quartier Nord","vertex":"b"},"weight":2}]}}]}';
-/*jsonCity = data = $.parseJSON(jsonCity);
-console.log(jsonCity);
-var firstArea = jsonCity.areas[0];
-var areaName = firstArea.name;
-$("#areaName").append(areaName);*/
+var firstArea;
+var areaName;
 
 var paperGlobal;
 
@@ -50,7 +45,7 @@ window.onload = function(){
 
 function init(){
 	console.log(jsonCity);
-	firstArea = jsonCity.areas[0];
+	firstArea = jsonCity.areas[id-1];
 	areaName = firstArea.name;
 	$("#areaName").append(areaName);
 
@@ -87,7 +82,13 @@ function draw(canvas){
 		var pointB = listVerticesCircle[item.path[1]];
 		console.log(pointA);
 		var peinture = paperGlobal.path("M "+widthCanvas*pointA.x+","+heightCanvas*pointA.y+" L"+widthCanvas*pointB.x+","+heightCanvas*pointB.y);
-		peinture.attr({"stroke-dasharray" :"-","stroke-width":3,stroke:'#FFFFFF',});
+		var rand = Math.floor(Math.random() * 2) + 1;
+		//peinture.attr({"stroke-dasharray" :"-","stroke-width":3,stroke:'#FFFFFF',});
+		if (rand == 1) {
+			peinture.attr({"stroke-dasharray" :"-","stroke-width":3,stroke:'#FFFFFF',});
+		}else{
+			peinture.attr({"stroke-width":3,stroke:'#FFFFFF',});
+		}
 		peinture.toBack();
 		var c = paperGlobal.path("M "+widthCanvas*pointA.x+","+heightCanvas*pointA.y+" L"+widthCanvas*pointB.x+","+heightCanvas*pointB.y);
 		c.attr({stroke:'#888888',"stroke-width":30});
@@ -152,6 +153,16 @@ function appelSurPoint(caller,name){
 	doSendCabRequest(areaName,name);
 	//alert("Un Taxi a été appelé sur le point "+name);
 	$("#lastNotification").html("Un Taxi a été appelé sur le point "+name);
+	/**************/
+		console.log(listVerticesCircle);
+		console.log("clik on body");
+		var myx = widthCanvas*listVerticesCircle[name].x-25;
+		var myy = heightCanvas*listVerticesCircle[name].y-25;
+		myx=Math.round(myx);
+		myy=Math.round(myy);
+		console.log(myx +"  ,  "+myy);
+		taxi.animate({x: myx , y: myy}, 1000, "<>");
+		/*****************/
 }
 
 function calculeDistance(x1, y1, x2, y2) {
@@ -173,11 +184,22 @@ function getPointProche(posX,posY){
 	console.log(distanceLaPlusProche);
 
 	cheminAppelPoint = paperGlobal.path("M "+widthCanvas*posX+","+heightCanvas*posY+" L"+widthCanvas*pointLePlusProche.x+","+heightCanvas*pointLePlusProche.y);
-	marker = paperGlobal.image("/static/img/marker.png", widthCanvas*posX-40, heightCanvas*posY-40, 80, 80);
+	marker = paperGlobal.image("/static/img/marker.png", widthCanvas*posX-25, heightCanvas*posY-25, 50, 50);
 	cheminAppelPoint.attr({"stroke-dasharray" :".","stroke-width":3});
 
 	doSendCabRequest(areaName,pointLePlusProche.name);
 	$("#lastNotification").html("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
+
+	/*************************/
+		console.log(listVerticesCircle);
+		console.log("clik on body");
+		var myx = widthCanvas*listVerticesCircle[pointLePlusProche.name].x-25;
+		var myy = heightCanvas*listVerticesCircle[pointLePlusProche.name].y-25;
+		myx=Math.round(myx);
+		myy=Math.round(myy);
+		console.log(myx +"  ,  "+myy);
+		taxi.animate({x: myx , y: myy}, 1000, "<>");
+	/**************************/
 	//alert("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
 
 }
@@ -278,7 +300,11 @@ function onMessage(evt)
 				if (taxi == null) {
 					taxi = paperGlobal.image("/static/img/Taxi-50.png", widthCanvas*listVerticesCircle[location].x-25, heightCanvas*listVerticesCircle[location].y-25, 50, 50);
 				}else{
-					taxi.animate({path:'M'+taxiX+' '+taxiY+'L'+widthCanvas*listVerticesCircle[location].x-25+' '+heightCanvas*listVerticesCircle[location].y-25+''},1000,"<>");
+					var xDestination = widthCanvas*listVerticesCircle[location].x-25;
+					var yDestination = heightCanvas*listVerticesCircle[location].y-25;
+					xDestination=Math.round(xDestination);
+					yDestination=Math.round(yDestination);
+					taxi.animate({x: xDestination , y: yDestination}, 1000, "<>");
 				}
 				taxiX = widthCanvas*listVerticesCircle[location].x-25;
 				taxiY = heightCanvas*listVerticesCircle[location].y-25;
@@ -313,10 +339,10 @@ function doSendCabRequest(areaName,vertexName)
 	$("body").click(function() {
 		console.log(listVerticesCircle);
 		console.log("clik on body");
-		 var myx = widthCanvas*listVerticesCircle["b"].x-25;
-		 var myy = heightCanvas*listVerticesCircle["b"].y-25;
-		 myx=Math.round(myx);
-		 myy=Math.round(myy);
-		 console.log(myx +"  ,  "+myy);
+		var myx = widthCanvas*listVerticesCircle["b"].x-25;
+		var myy = heightCanvas*listVerticesCircle["b"].y-25;
+		myx=Math.round(myx);
+		myy=Math.round(myy);
+		console.log(myx +"  ,  "+myy);
 		taxi.animate({x: myx , y: myy}, 1000, "<>");
 	});
