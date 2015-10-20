@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2DFFA6DF3F6FC0688C8132573B1D4A3A05E91E01",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2DFFA6DF3F6FC0688C8132573B1D4A3A05E91E01" : 0,
+    "0DAF84CD8D013F25BA0484DC1FF870819723A671" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6CFC7593-ACDC-4E4A-B04E-7DBA5D2CF804",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2DFFA6DF3F6FC0688C8132573B1D4A3A05E91E01" : "ProjetIntegrationImerirArchitecture\/",
+    "0DAF84CD8D013F25BA0484DC1FF870819723A671" : "SwiftWebSocket_tidwall\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "testWebsocket",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SwiftClient\/testWebsocket.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/tidwall\/SwiftWebSocket",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0DAF84CD8D013F25BA0484DC1FF870819723A671"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/NoixDeCajou\/ProjetIntegrationImerirArchitecture.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2DFFA6DF3F6FC0688C8132573B1D4A3A05E91E01"
+    }
+  ]
+}
