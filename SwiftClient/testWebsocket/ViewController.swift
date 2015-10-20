@@ -1,5 +1,8 @@
 import UIKit
 import Starscream
+import SwiftyJSON
+import Alamofire
+
 
 class ViewController : UIViewController, WebSocketDelegate {
     
@@ -9,6 +12,13 @@ class ViewController : UIViewController, WebSocketDelegate {
         super.viewDidLoad()
 
         print("in viewDidload")
+        
+        Alamofire.request(.GET, "http://172.30.1.120:5000/monitor")
+            .responseString { response in
+                //print("Success: \(response.result.isSuccess)")
+                print("Response String: \(response.result.value)")
+                print("--------------------")
+        }
         
         //self.socket = WebSocket(url: NSURL(string: "ws://localhost:8080/")!, protocols: ["chat", "superchat"])
         self.socket = WebSocket(url: NSURL(string: "ws://172.30.1.120:8000/")!, protocols: ["chat", "superchat"])
