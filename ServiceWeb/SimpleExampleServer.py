@@ -8,6 +8,7 @@ from pprint import pprint
 import signal, sys, ssl
 import string
 #from ServiceWeb import handleMsg
+import Dijkstra
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer, SimpleSSLWebSocketServer
 from optparse import OptionParser
 
@@ -16,6 +17,9 @@ clients = []
 idRequestMax = 2
 
 rootObject = ""
+
+graphMap = ""
+
 
 class SimpleChat(WebSocket):
 
@@ -78,12 +82,38 @@ def messageReceived(msg):
             if accepted == True:
                 # request idRequest accepted
                 # faire recherche de plus court chemin et lancer le deplacement
+
+                #{
+                #"idCabRequest":0,
+                #"area": "Quartier Nord",
+                #"location": {
+                #"area": "Quartier Nord",
+                #"locationType": "vertex",
+                #"location": "b"
+                #}
+                #}
+
+
+                for req in rootObject['cabRequest']:
+                    if req['idCabRequest'] == idRequest :
+                        Dijkstra.doDijkstra(graphMap,
+                                    unicode(str(rootObject['cabInfo']['loc_now']['area']) + "." + str(rootObject['cabInfo']['loc_now']['location'])),
+                                    unicode(str(req['location']['area']) + "." + str(req['location']['location'])) )
+
+
+
                 pass
             else:
                 # request idRequest rejected
                 pass
 
             # supprimer la requete avec l'id idRequest de la liste de requetes
+            for req in rootObject["cabRequest"]:
+
+                if req["idCabRequest"] == jsonReceived['id']:
+                    rootObject["cabRequest"].remove(req)
+                    pass
+                pass
 
             pass
         else:

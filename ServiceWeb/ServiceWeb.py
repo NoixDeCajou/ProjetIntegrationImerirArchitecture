@@ -4,6 +4,7 @@ from optparse import OptionParser
 from threading import Thread
 from flask import Flask, render_template
 import time
+import CityParser
 import SimpleExampleServer
 from SimpleWebSocketServer import SimpleWebSocketServer, SimpleSSLWebSocketServer
 from SimpleExampleServer import SimpleChat, broadcast
@@ -17,7 +18,6 @@ availibilityOfAreas = []
 cabFound = False
 
 server = ""
-
 
 
 @app.route('/')
@@ -91,7 +91,13 @@ class BroadcastRunner(Thread):
 
         print("starting to send maps")
 
+        print("rootObject: ")
+        pprint(SimpleExampleServer.rootObject)
+
         while(True):
+
+            #pprint(SimpleExampleServer.rootObject)
+
             msg = '{"cabInfo":' + json.dumps(SimpleExampleServer.rootObject['cabInfo']) + ', '
             msg += '"nbCabRequest":' + str( len(SimpleExampleServer.rootObject['cabRequest']) ) + ', '
             msg += '"cabRequests":' + json.dumps(SimpleExampleServer.rootObject['cabRequest'])
@@ -129,6 +135,16 @@ if __name__ == '__main__':
 
     for area in SimpleExampleServer.rootObject['rootObject']['areas']:
         availibilityOfAreas.append(True)
+
+
+    print("in main:")
+    print(SimpleExampleServer.rootObject)
+
+    SimpleExampleServer.graphMap = CityParser.getGraphe(SimpleExampleServer.rootObject['rootObject'])
+
+
+
+    print("after getgraphe")
 
     print("before run")
 

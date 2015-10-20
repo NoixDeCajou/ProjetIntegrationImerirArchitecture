@@ -1,3 +1,4 @@
+from pprint import pprint
 import sys
 
 class Vertex:
@@ -76,6 +77,13 @@ class Graph:
     def get_previous(self, current):
         return self.previous
 
+    def afficherVertices(self):
+
+        print("in afficherVertices")
+        for v in self.vert_dict:
+            pprint(v)
+
+
 def shortest(v, path):
     ''' make shortest path from v.previous'''
     if v.previous:
@@ -86,7 +94,7 @@ def shortest(v, path):
 import heapq
 
 def dijkstra(aGraph, start, target):
-    print '''Dijkstra's shortest path'''
+    print 'in dijkstra'
     # Set the distance for the start node to zero 
     start.set_distance(0)
 
@@ -102,6 +110,9 @@ def dijkstra(aGraph, start, target):
 
         #for next in v.adjacent:
         for next in current.adjacent:
+
+            print(next)
+
             # if visited, skip
             if next.visited:
                 continue
@@ -123,8 +134,50 @@ def dijkstra(aGraph, start, target):
         # 2. Put all vertices not visited into the queue
         unvisited_queue = [(v.get_distance(),v) for v in aGraph if not v.visited]
         heapq.heapify(unvisited_queue)
-    
+
+
+
+def doDijkstra(graph, start, end):
+
+    print("in doDijkstra")
+    print("graph: ")
+    pprint(graph)
+    print("start: " + start)
+    print("end: " + end)
+
+    g = graph
+
+    print("vertices")
+
+    g.afficherVertices()
+
+    pprint(g.get_vertex(end))
+    #print 'Graph data:'
+    #for v in g:
+    #    for w in v.get_connections():
+    #        vid = v.get_id()
+    #        wid = w.get_id()
+    #        print '( %s , %s, %3d)'  % ( vid, wid, v.get_weight(w))
+
+    dijkstra(g, g.get_vertex(start), g.get_vertex(end))
+
+    target = g.get_vertex(end)
+
+    print("end, target")
+    print(end)
+    print(target)
+
+    path = [target.get_id()]
+    print("path")
+    print (path)
+    shortest(target, path)
+
+
+    print 'The shortest path : %s' %(path[::-1])
+
+
 if __name__ == '__main__':
+
 
     g = Graph()
 
