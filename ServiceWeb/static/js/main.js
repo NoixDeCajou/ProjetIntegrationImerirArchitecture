@@ -30,13 +30,16 @@ var taxiY = null;
 var listVerticesCircle = [];
 
 
-window.onresize=function(){    
+window.onresize=function(){  
+	taxi.remove();
+	taxi = null;  
 	var canvas = init();
 	canvas.innerHTML = "";
 	draw(canvas);
 	if (appelX != null || appelY != null) {
 		getPointProche(appelX,appelY);
 	};
+	taxi = paperGlobal.image("/static/img/Taxi-50.png", taxiX, taxiY, 50, 50);
 }
 
 window.onload = function(){
@@ -141,7 +144,7 @@ $('#myCanvas').click(function(e) {
 
 function appelSurPoint(caller,name){
 	//caller.attr("fill" , "#5CB85C");
-	if (cheminAppelPoint != null || marker != null ) {
+	if (cheminAppelPoint != null && marker != null ) {
 		cheminAppelPoint.remove();
 		marker.remove();
 	};
@@ -265,7 +268,7 @@ function onClose(evt)
 
 function onMessage(evt)
 {
-	//console.log(evt.data);
+	console.log(evt.data);
 	var info = jQuery.parseJSON(evt.data);
 	//console.log(info);
 	if(info.hasOwnProperty('cabInfo')){
@@ -293,6 +296,9 @@ function onMessage(evt)
 			}else{ //street
 
 			}
+		}else{//Pas dans la zone
+			taxi.remove();
+			taxi = null;
 		}
 	}
 }
