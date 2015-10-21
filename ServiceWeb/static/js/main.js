@@ -187,6 +187,10 @@ function getPointProche(posX,posY){
 
 }
 
+function displayMonitorError(){
+	$(".hide").removeClass("hide");
+}
+
 
 /***********************************
 *
@@ -218,7 +222,8 @@ function initWebService(){
 			draw(canvas);
 
 		}else{
-			alert(json.explication)
+			//alert(json.explication)
+			displayMonitorError();
 		}
 	})
 	.fail(function( jqxhr, textStatus, error ) {
