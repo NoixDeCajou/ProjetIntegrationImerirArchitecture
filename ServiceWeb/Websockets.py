@@ -1,3 +1,4 @@
+# coding=utf-8
 '''
 The MIT License (MIT)
 Copyright (c) 2013 Dave P.
@@ -27,7 +28,11 @@ graphMap = ""
 
 theShortestPath = []
 
+"""
 
+classe gérant un client websockets
+
+"""
 class SimpleChat(WebSocket):
     def handleMessage(self):
         # for client in list(clients):
@@ -53,20 +58,23 @@ class SimpleChat(WebSocket):
         # for client in list(clients):
         #    client.sendMessage(self.address[0] + u' - disconnected')
 
-
+# envoi de message a tous les clients
 def broadcast(message):
     for client in clients:
-        #print("in the for of broadcast")
-        # send___(client, unicode(message))
-        # client.sendMessage(unicode(message))
+
         send___(client, unicode(message))
 
-
+# envoi de message à un client
 def send___(client, msg):
     #print("in send")
     client.sendMessage(msg)
 
+"""
 
+Methode appelee lorsque un message est reçu.
+Elle verifie l'id du client, et traite la demande en conséquence
+
+"""
 def messageReceived(msg):
     global idRequestMax
     global rootObject
@@ -79,10 +87,13 @@ def messageReceived(msg):
     try:
         jsonReceived = json.loads(msg)
 
-        if jsonReceived['id'] == 0:
 
-            # msg from taxi
+        if jsonReceived['id'] == 0:
+            #Si le message vient du cab
+
+            # si on n'est pas en train de traiter une requete
             if traitementTaxiEnCours == False:
+
 
                 traitementTaxiEnCours = True
 
@@ -92,6 +103,8 @@ def messageReceived(msg):
 
                 accepted = jsonReceived['accepted']
 
+
+                # si le taxi a accepté la requête
                 if accepted == True:
                     # request idRequest accepted
                     # faire recherche de plus court chemin
@@ -120,6 +133,7 @@ def messageReceived(msg):
                             print "to"
                             print(unicode(str(req['location']['area']) + "." + str( req['location']['location'])))
 
+                            #on calcule le chemin vers la destination
                             theShortestPath = Dijkstra.doDijkstra(rootObject,
                                                                   unicode(str(
                                                                       rootObject['cabInfo']['loc_now']['area']) + "." + str(
@@ -129,8 +143,7 @@ def messageReceived(msg):
                             print("theShortestPath after dodijkstra")
                             print(theShortestPath)
 
-                    # et lancer le deplacement
-
+                    # et on lance le deplacement dans un nouveau thread
                     mover = MoverRunner()
                     mover.start()
 
@@ -139,7 +152,7 @@ def messageReceived(msg):
                     print("request rejected by taxi")
                     pass
 
-                                # supprimer la requete avec l'id idRequest de la liste de requetes
+                # supprimer la requete effectuée avec l'id idRequest de la liste de requetes
                 for req in rootObject["cabRequest"]:
                     if req["idCabRequest"] == idRequest:
                         rootObject["cabRequest"].remove(req)
@@ -186,7 +199,7 @@ def messageReceived(msg):
 
     pass
 
-
+# Classe représentant le thread de déplacement du taxi
 class MoverRunner(Thread):
     def __init__(self):
         Thread.__init__(self)

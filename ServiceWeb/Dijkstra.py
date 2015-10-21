@@ -2,7 +2,7 @@ import json
 from pprint import pprint
 import sys
 import CityParser
-import SimpleExampleServer
+import Websockets
 
 
 class Vertex:
@@ -231,15 +231,15 @@ def doDijkstra(graph, start, end):
 if __name__ == '__main__':
 
     with open('rootObject.json') as data_file:
-        SimpleExampleServer.rootObject = json.load(data_file)
-        pprint(SimpleExampleServer.rootObject)
+        Websockets.rootObject = json.load(data_file)
+        pprint(Websockets.rootObject)
 
     #g = CityParser.getGraphe(SimpleExampleServer.rootObject['rootObject'])
 
     #doDijkstra(g, u'Quartier Nord.m', u'Quartier Sud.a' )
-    doDijkstra(SimpleExampleServer.rootObject, u'Quartier Nord.m', u'Quartier Sud.a' )
+    doDijkstra(Websockets.rootObject, u'Quartier Nord.m', u'Quartier Sud.a' )
 
     #doDijkstra(g, u'Quartier Sud.a', u'Quartier Sud.m' )
-    doDijkstra(SimpleExampleServer.rootObject, u'Quartier Sud.a', u'Quartier Sud.m' )
+    doDijkstra(Websockets.rootObject, u'Quartier Sud.a', u'Quartier Sud.m' )
 
     #pprint(g)

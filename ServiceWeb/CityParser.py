@@ -1,15 +1,16 @@
+# coding=utf-8
 from pprint import pprint
 import math
 from Dijkstra import Graph
 
-__author__ = 'Nathan'
-
-#import json
-
 verticeList = list()
 edgeList = list()
 
+"""
 
+Fonction de génération d'objet graphe à partir de du json
+
+"""
 def getGraphe(jsonmap):
 
     print("in getGraphe")
@@ -75,6 +76,12 @@ def getGraphe(jsonmap):
 
     return g
 
+
+"""
+
+fonction renvoyant le poid d'un arc entre 2 points
+
+"""
 def getPoids(pointA, pointB):
 
     for edge in edgeList:

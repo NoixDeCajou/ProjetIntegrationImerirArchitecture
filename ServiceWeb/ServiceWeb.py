@@ -1,3 +1,4 @@
+# coding=utf-8
 import json
 import signal, sys, ssl
 from optparse import OptionParser
@@ -5,11 +6,17 @@ from threading import Thread
 from flask import Flask, render_template
 import time
 import CityParser
-import SimpleExampleServer
+import Websockets
 from SimpleWebSocketServer import SimpleWebSocketServer, SimpleSSLWebSocketServer
-from SimpleExampleServer import SimpleChat, broadcast
+from Websockets import SimpleChat, broadcast
 from pprint import pprint
 
+
+"""
+
+Objet Flask servant a l'envoi du client web et des pages json servant à l'initialisation de l'application
+
+"""
 app = Flask(__name__)
 
 
@@ -19,12 +26,20 @@ cabFound = False
 
 server = ""
 
+"""
 
+Message annonçant qu'il n'y a rien sur cette route ...
+
+"""
 @app.route('/')
 def index():
     return 'This is not the page you are looking for (go see /webclient)'
 
+"""
 
+On attribut l'id 0 au cab, et on lui transmet le numero de port sur lequel ouvrir la websocket
+
+"""
 @app.route('/cab')
 def cab_page():
     # enregistrer comme quoi il est co, et lui envoyer un ID 0
@@ -38,7 +53,13 @@ def cab_page():
         print("cab rejected")
         return '{"error":true, "explication":"A cab has already been selected"}'
 
+"""
 
+On attribut un id au cab, on lui transmet le numero de port sur lequel ouvrir la websocket, et on lui transmet
+la map
+
+
+"""
 @app.route('/monitor')
 def monitor_page():
     # tell le monitor its ID, the map, and error (true or false)
@@ -53,19 +74,29 @@ def monitor_page():
             availibilityOfAreas[i] = False
             print("monitor found")
             startWebSocketServerIfReady()
-            return '{"error":false, "portWebSocket":8000, "id":' + str(i + 1) + ', "map":' + json.dumps(SimpleExampleServer.rootObject['rootObject']) + ' }'
+            return '{"error":false, "portWebSocket":8000, "id":' + str(i + 1) + ', "map":' + json.dumps(Websockets.rootObject['rootObject']) + ' }'
 
         i += 1
     print("monitor rejected")
     return '{"error":true, "explication":"No area is available"}'
     # return '{"text":"You are a monitor"}'
 
+"""
 
+Le client devra acceder à cette route grace a son navigateur pour acceder au webclient, on lui renvoi la page appelée index.html
+
+"""
 @app.route('/webclient')
 def webclient():
     return render_template('index.html')
 
+"""
 
+On appelle cette fonction lorsque l'attribu une area à un client
+Si toutes les areas ont été attribuées, elle lance le thread broadcast runner qui va envoyer régulièrement aux monitors et cab
+des mises à jours concernant la position du taxi et les requetes en cours
+
+"""
 def startWebSocketServerIfReady():
 
     print("in startWebSocketServerIfReady")
@@ -82,25 +113,33 @@ def startWebSocketServerIfReady():
         broadcaster.start()
 
 
+"""
 
+Cette classe représente le thread de broadcast de mises à jours
+Il va régulièrement envoyer aux monitors et cab la position du taxi, et les requetes en attente
+
+"""
 class BroadcastRunner(Thread):
     def __init__(self):
         Thread.__init__(self)
 
+    """
+    Fonction executée dans un thread à part
+    """
     def run(self):
 
         print("starting to send maps")
 
         print("rootObject: ")
-        pprint(SimpleExampleServer.rootObject)
+        pprint(Websockets.rootObject)
 
         while(True):
 
             #pprint(SimpleExampleServer.rootObject)
 
-            msg = '{"cabInfo":' + json.dumps(SimpleExampleServer.rootObject['cabInfo']) + ', '
-            msg += '"nbCabRequest":' + str( len(SimpleExampleServer.rootObject['cabRequest']) ) + ', '
-            msg += '"cabRequests":' + json.dumps(SimpleExampleServer.rootObject['cabRequest'])
+            msg = '{"cabInfo":' + json.dumps(Websockets.rootObject['cabInfo']) + ', '
+            msg += '"nbCabRequest":' + str( len(Websockets.rootObject['cabRequest']) ) + ', '
+            msg += '"cabRequests":' + json.dumps(Websockets.rootObject['cabRequest'])
             msg += '}'
 
             broadcast(msg)
@@ -108,13 +147,17 @@ class BroadcastRunner(Thread):
             #print(msg)
             #print("str: " + str(msg))
 
-            time.sleep(1)
+            time.sleep(0.5)
         pass
 
     pass
 
 
+"""
 
+Cette classe représente le thread de Flask
+
+"""
 class ServiceRunner(Thread):
     def __init__(self):
         Thread.__init__(self)
@@ -124,23 +167,28 @@ class ServiceRunner(Thread):
 
     pass
 
+"""
 
+Point d'entrée du programme
+
+"""
 if __name__ == '__main__':
 
-    # global SimpleExampleServer.rootObject
-
+    # initialiser l'objet rootObject à partir du fichier rootObject.json
+    # rootObject représente le "modèle" de l'application
     with open('rootObject.json') as data_file:
-        SimpleExampleServer.rootObject = json.load(data_file)
-        pprint(SimpleExampleServer.rootObject)
+        Websockets.rootObject = json.load(data_file)
+        pprint(Websockets.rootObject)
 
-    for area in SimpleExampleServer.rootObject['rootObject']['areas']:
+    # on initialise availibilityOfAreas, une variable qui sera utile plus tard pour vérifier si toutes les areas ont été attribuées
+    for area in Websockets.rootObject['rootObject']['areas']:
         availibilityOfAreas.append(True)
 
 
     print("in main:")
-    print(SimpleExampleServer.rootObject)
+    print(Websockets.rootObject)
 
-    SimpleExampleServer.graphMap = CityParser.getGraphe(SimpleExampleServer.rootObject['rootObject'])
+    # SimpleExampleServer.graphMap = CityParser.getGraphe(SimpleExampleServer.rootObject['rootObject'])
 
 
 
@@ -154,14 +202,10 @@ if __name__ == '__main__':
 
     print("after")
 
+
+
     parser = OptionParser(usage="usage: %prog [options]", version="%prog 1.0")
     parser.add_option("--host", default='', type='string', action="store", dest="host", help="hostname (0.0.0.0)")
-    parser.add_option("--port", default=8000, type='int', action="store", dest="port", help="port (8000)")
-    #parser.add_option("--example", default='echo', type='string', action="store", dest="example", help="echo, chat")
-    #parser.add_option("--ssl", default=0, type='int', action="store", dest="ssl", help="ssl (1: on, 0: off (default))")
-    #parser.add_option("--cert", default='./cert.pem', type='string', action="store", dest="cert",
-    #                  help="cert (./cert.pem)")
-    #parser.add_option("--ver", default=ssl.PROTOCOL_TLSv1, type=int, action="store", dest="ver", help="ssl version")
 
     (options, args) = parser.parse_args()
 
@@ -169,14 +213,10 @@ if __name__ == '__main__':
 
     print( "host" )
     print(options.host)
-    print("port")
-    print(options.port)
 
-    #if options.ssl == 1:
-    #    server = SimpleSSLWebSocketServer(options.host, options.port, cls, options.cert, options.cert,
-    #                                      version=options.ver)
-    #else:
-    server = SimpleWebSocketServer(options.host, options.port, cls)
+
+    # on instancie le serveur websocket
+    server = SimpleWebSocketServer(options.host, 8000, cls)
 
 
     def close_sig_handler(signal, frame):
@@ -188,4 +228,6 @@ if __name__ == '__main__':
 
     print('about to launch server')
 
+
+    # on allume le serveur websocket
     server.serveforever()
