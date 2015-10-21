@@ -430,7 +430,7 @@ int getIdRequest(char *jsonString){
         //Serial.println("Parsed successfully 1 " );
         aJsonObject* cabRequests = aJson.getObjectItem(root, "cabRequests"); 
         
-        if (cabRequests != NULL) {
+        if (cabRequests != NULL && (getArraySize(cabRequests) != 0) {
           //Serial.println("Parsed successfully 1 " );
           aJsonObject* firstCabRequests = aJson.getArrayItem(cabRequests, 0); 
   
