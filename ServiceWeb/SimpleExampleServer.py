@@ -15,6 +15,8 @@ import Dijkstra
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer, SimpleSSLWebSocketServer
 from optparse import OptionParser
 
+traitementTaxiEnCours = False
+
 clients = []
 
 idRequestMax = 1
@@ -68,7 +70,7 @@ def send___(client, msg):
 def messageReceived(msg):
     global idRequestMax
     global rootObject
-
+    global traitementTaxiEnCours
     global theShortestPath
 
     print("in messageReceived")
@@ -78,72 +80,79 @@ def messageReceived(msg):
         jsonReceived = json.loads(msg)
 
         if jsonReceived['id'] == 0:
+
             # msg from taxi
-            print("from taxi")
+            if traitementTaxiEnCours == False:
 
-            idRequest = jsonReceived['idCabRequest']
+                traitementTaxiEnCours = True
 
-            accepted = jsonReceived['accepted']
+                print("from taxi (not traitementTaxiEnCours)")
 
+                idRequest = jsonReceived['idCabRequest']
 
-
-
-            if accepted == True:
-                # request idRequest accepted
-                # faire recherche de plus court chemin
-
-                # {
-                # "idCabRequest":0,
-                # "area": "Quartier Nord",
-                # "location": {
-                # "area": "Quartier Nord",
-                # "locationType": "vertex",
-                # "location": "b"
-                # }
-                # }
-
-
-                for req in rootObject['cabRequest']:
-                    theShortestPath = []
+                accepted = jsonReceived['accepted']
 
 
 
-                    if req['idCabRequest'] == idRequest:
 
-                        print "from"
-                        print(unicode(str( rootObject['cabInfo']['loc_now']['area']) + "." + str(rootObject['cabInfo']['loc_now']['location'])))
+                if accepted == True:
+                    # request idRequest accepted
+                    # faire recherche de plus court chemin
 
-                        print "to"
-                        print(unicode(str(req['location']['area']) + "." + str( req['location']['location'])))
+                    # {
+                    # "idCabRequest":0,
+                    # "area": "Quartier Nord",
+                    # "location": {
+                    # "area": "Quartier Nord",
+                    # "locationType": "vertex",
+                    # "location": "b"
+                    # }
+                    # }
 
-                        theShortestPath = Dijkstra.doDijkstra(rootObject,
-                                                              unicode(str(
-                                                                  rootObject['cabInfo']['loc_now']['area']) + "." + str(
-                                                                  rootObject['cabInfo']['loc_now']['location'])),
-                                                              unicode(str(req['location']['area']) + "." + str(
-                                                                  req['location']['location'])))
-                        print("theShortestPath after dodijkstra")
-                        print(theShortestPath)
 
-                # et lancer le deplacement
+                    for req in rootObject['cabRequest']:
+                        theShortestPath = []
 
-                mover = MoverRunner()
-                mover.start()
+
+
+                        if req['idCabRequest'] == idRequest:
+
+                            print "from"
+                            print(unicode(str( rootObject['cabInfo']['loc_now']['area']) + "." + str(rootObject['cabInfo']['loc_now']['location'])))
+
+                            print "to"
+                            print(unicode(str(req['location']['area']) + "." + str( req['location']['location'])))
+
+                            theShortestPath = Dijkstra.doDijkstra(rootObject,
+                                                                  unicode(str(
+                                                                      rootObject['cabInfo']['loc_now']['area']) + "." + str(
+                                                                      rootObject['cabInfo']['loc_now']['location'])),
+                                                                  unicode(str(req['location']['area']) + "." + str(
+                                                                      req['location']['location'])))
+                            print("theShortestPath after dodijkstra")
+                            print(theShortestPath)
+
+                    # et lancer le deplacement
+
+                    mover = MoverRunner()
+                    mover.start()
+
+                    pass
+                else:
+                    # request idRequest rejected
+                    pass
+
+                # supprimer la requete avec l'id idRequest de la liste de requetes
+                for req in rootObject["cabRequest"]:
+
+                    if req["idCabRequest"] == idRequest:
+                        rootObject["cabRequest"].remove(req)
+                        pass
+                    pass
 
                 pass
             else:
-                # request idRequest rejected
-                pass
-
-            # supprimer la requete avec l'id idRequest de la liste de requetes
-            for req in rootObject["cabRequest"]:
-
-                if req["idCabRequest"] == idRequest:
-                    rootObject["cabRequest"].remove(req)
-                    pass
-                pass
-
-            pass
+                print("from taxi rejected( traitementTaxiEnCours)")
         else:
             # msg from client
             print("from client")
@@ -179,6 +188,8 @@ class MoverRunner(Thread):
 
     def run(self):
         global theShortestPath
+        global traitementTaxiEnCours
+
 
         print("in moverrunner run")
 
@@ -206,7 +217,7 @@ class MoverRunner(Thread):
         print("theshortestpath: ")
         pprint(theShortestPath)
 
-        coeffSleep = 2.5
+        coeffSleep = 1
 
 
         for point in theShortestPath:
@@ -237,6 +248,8 @@ class MoverRunner(Thread):
             pointActuel = point
 
             print("le point " + point + " a ete atteind")
+            traitementTaxiEnCours = False
+
         pass
 
     pass
