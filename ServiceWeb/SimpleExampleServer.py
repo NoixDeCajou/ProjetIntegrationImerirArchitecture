@@ -82,65 +82,65 @@ def messageReceived(msg):
         if jsonReceived['id'] == 0:
 
             # msg from taxi
-            #if traitementTaxiEnCours == False:
+            if traitementTaxiEnCours == False:
 
-            traitementTaxiEnCours = True
+                traitementTaxiEnCours = True
 
-            print("from taxi (not traitementTaxiEnCours)")
+                print("from taxi (not traitementTaxiEnCours)")
 
-            idRequest = jsonReceived['idCabRequest']
+                idRequest = jsonReceived['idCabRequest']
 
-            accepted = jsonReceived['accepted']
-
-
-
-
-            if accepted == True:
-                # request idRequest accepted
-                # faire recherche de plus court chemin
-
-                # {
-                # "idCabRequest":0,
-                # "area": "Quartier Nord",
-                # "location": {
-                # "area": "Quartier Nord",
-                # "locationType": "vertex",
-                # "location": "b"
-                # }
-                # }
-
-
-                for req in rootObject['cabRequest']:
-                    theShortestPath = []
+                accepted = jsonReceived['accepted']
 
 
 
-                    if req['idCabRequest'] == idRequest:
 
-                        print "from"
-                        print(unicode(str( rootObject['cabInfo']['loc_now']['area']) + "." + str(rootObject['cabInfo']['loc_now']['location'])))
+                if accepted == True:
+                    # request idRequest accepted
+                    # faire recherche de plus court chemin
 
-                        print "to"
-                        print(unicode(str(req['location']['area']) + "." + str( req['location']['location'])))
+                    # {
+                    # "idCabRequest":0,
+                    # "area": "Quartier Nord",
+                    # "location": {
+                    # "area": "Quartier Nord",
+                    # "locationType": "vertex",
+                    # "location": "b"
+                    # }
+                    # }
 
-                        theShortestPath = Dijkstra.doDijkstra(rootObject,
-                                                              unicode(str(
-                                                                  rootObject['cabInfo']['loc_now']['area']) + "." + str(
-                                                                  rootObject['cabInfo']['loc_now']['location'])),
-                                                              unicode(str(req['location']['area']) + "." + str(
-                                                                  req['location']['location'])))
-                        print("theShortestPath after dodijkstra")
-                        print(theShortestPath)
 
-                # et lancer le deplacement
+                    for req in rootObject['cabRequest']:
+                        theShortestPath = []
 
-                mover = MoverRunner()
-                mover.start()
 
-                pass
-                #else:
+
+                        if req['idCabRequest'] == idRequest:
+
+                            print "from"
+                            print(unicode(str( rootObject['cabInfo']['loc_now']['area']) + "." + str(rootObject['cabInfo']['loc_now']['location'])))
+
+                            print "to"
+                            print(unicode(str(req['location']['area']) + "." + str( req['location']['location'])))
+
+                            theShortestPath = Dijkstra.doDijkstra(rootObject,
+                                                                  unicode(str(
+                                                                      rootObject['cabInfo']['loc_now']['area']) + "." + str(
+                                                                      rootObject['cabInfo']['loc_now']['location'])),
+                                                                  unicode(str(req['location']['area']) + "." + str(
+                                                                      req['location']['location'])))
+                            print("theShortestPath after dodijkstra")
+                            print(theShortestPath)
+
+                    # et lancer le deplacement
+
+                    mover = MoverRunner()
+                    mover.start()
+
+                    pass
+                else:
                     # request idRequest rejected
-                #    pass
+                    pass
 
                 # supprimer la requete avec l'id idRequest de la liste de requetes
                 for req in rootObject["cabRequest"]:
