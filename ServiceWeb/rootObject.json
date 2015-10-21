@@ -119,24 +119,5 @@
             "location": "b"
         }
     },
-    "cabRequest": [
-        {
-            "idCabRequest":0,
-            "area": "Quartier Nord",
-            "location": {
-                "area": "Quartier Nord",
-                "locationType": "vertex",
-                "location": "b"
-            }
-        },
-        {
-            "idCabRequest":1,
-            "area": "Quartier Sud",
-            "location": {
-                "area": "Quartier Sud",
-                "locationType": "vertex",
-                "location": "a"
-            }
-        }
-    ]
+    "cabRequest": []
 }
