@@ -44,10 +44,6 @@ window.onload = function(){
 };
 
 function init(){
-	console.log(jsonCity);
-	firstArea = jsonCity.areas[id-1];
-	areaName = firstArea.name;
-	$("#areaName").append(areaName);
 
 	canvas = document.getElementById("myCanvas");
 	canvas.width = document.body.clientWidth;
@@ -205,6 +201,11 @@ function initWebService(){
 			jsonCity = json.map;
 
 			initWebSocket(webSocketPort);
+
+			console.log(jsonCity);
+			firstArea = jsonCity.areas[id-1];
+			areaName = firstArea.name;
+			$("#areaName").append(areaName);
 
 			var canvas = init();
 			draw(canvas);
