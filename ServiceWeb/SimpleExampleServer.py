@@ -242,7 +242,7 @@ class MoverRunner(Thread):
             rootObject['cabInfo']['loc_now']['location'] = unicode( (point.split('.'))[-1] )
 
 
-            rootObject['cabInfo']['odometer'] = rootObject['cabInfo']['odometer'] + poid
+            rootObject['cabInfo']['odometer'] = float("{:10.2f}".format( rootObject['cabInfo']['odometer'] + poid ))
 
 
             pointActuel = point
