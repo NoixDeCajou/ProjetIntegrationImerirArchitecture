@@ -92,9 +92,6 @@ def messageReceived(msg):
 
                 accepted = jsonReceived['accepted']
 
-
-
-
                 if accepted == True:
                     # request idRequest accepted
                     # faire recherche de plus court chemin
@@ -109,9 +106,9 @@ def messageReceived(msg):
                     # }
                     # }
 
-
+                    theShortestPath = []
                     for req in rootObject['cabRequest']:
-                        theShortestPath = []
+
 
 
 
@@ -139,20 +136,28 @@ def messageReceived(msg):
 
                     pass
                 else:
-                    # request idRequest rejected
+                    print("request rejected by taxi")
                     pass
 
-                # supprimer la requete avec l'id idRequest de la liste de requetes
+                                # supprimer la requete avec l'id idRequest de la liste de requetes
                 for req in rootObject["cabRequest"]:
-
                     if req["idCabRequest"] == idRequest:
                         rootObject["cabRequest"].remove(req)
                         pass
                     pass
 
-                pass
+                traitementTaxiEnCours = False
+
             else:
+                #request idRequest rejected (rejection des reponses multiples du taxi (appui long sur le bouton))
                 print("from taxi rejected( traitementTaxiEnCours)")
+
+                pass
+
+
+
+
+
         else:
             # msg from client
             print("from client")
@@ -197,7 +202,7 @@ class MoverRunner(Thread):
 
         # le 1er terme est a ignorer car c'est le point actuel
 
-        theShortestPath
+
 
         print("theShortestPath in the moverunner")
         print(theShortestPath)
@@ -248,7 +253,7 @@ class MoverRunner(Thread):
             pointActuel = point
 
             print("le point " + point + " a ete atteind")
-            traitementTaxiEnCours = False
+            #traitementTaxiEnCours = False
 
         pass
 
@@ -256,37 +261,3 @@ class MoverRunner(Thread):
 
 
 
-
-    # if __name__ == "__main__":
-    #
-    #    parser = OptionParser(usage="usage: %prog [options]", version="%prog 1.0")
-    #    parser.add_option("--host", default='', type='string', action="store", dest="host", help="hostname (localhost)")
-    #    parser.add_option("--port", default=8000, type='int', action="store", dest="port", help="port (8000)")
-    #    parser.add_option("--example", default='echo', type='string', action="store", dest="example", help="echo, chat")
-    #    parser.add_option("--ssl", default=0, type='int', action="store", dest="ssl", help="ssl (1: on, 0: off (default))")
-    #    parser.add_option("--cert", default='./cert.pem', type='string', action="store", dest="cert",
-    #                      help="cert (./cert.pem)")
-    #    parser.add_option("--ver", default=ssl.PROTOCOL_TLSv1, type=int, action="store", dest="ver", help="ssl version")
-    #
-    #    (options, args) = parser.parse_args()
-    #
-    #    cls = SimpleChat
-    #
-    #    if options.ssl == 1:
-    #        server = SimpleSSLWebSocketServer(options.host, options.port, cls, options.cert, options.cert,
-    #                                          version=options.ver)
-    #    else:
-    #        server = SimpleWebSocketServer(options.host, options.port, cls)
-    #
-    #
-    #    def close_sig_handler(signal, frame):
-    #        server.close()
-    #        sys.exit()
-    #
-    #
-    #    signal.signal(signal.SIGINT, close_sig_handler)
-    #
-    #    print('about to launch server')
-    #
-    #    server.serveforever()
-    #
