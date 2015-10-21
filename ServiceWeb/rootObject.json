@@ -99,7 +99,7 @@
         ]
     },
     "cabInfo": {
-        "odometer": 800,
+        "odometer": 0,
         "destination": {
             "area": "Quartier Sud",
             "location": {
