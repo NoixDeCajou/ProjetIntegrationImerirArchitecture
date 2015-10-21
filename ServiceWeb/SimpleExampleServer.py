@@ -122,6 +122,8 @@ def messageReceived(msg):
                                                                   rootObject['cabInfo']['loc_now']['location'])),
                                                               unicode(str(req['location']['area']) + "." + str(
                                                                   req['location']['location'])))
+                        print("theShortestPath after dodijkstra")
+                        print(theShortestPath)
 
                 # et lancer le deplacement
 
@@ -186,7 +188,7 @@ class MoverRunner(Thread):
 
         theShortestPath
 
-        print("theShortestPath: ")
+        print("theShortestPath in the moverunner")
         print(theShortestPath)
 
 
