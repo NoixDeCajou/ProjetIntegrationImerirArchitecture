@@ -36,12 +36,12 @@ window.onresize=function(){
 	draw(canvas);
 	if (appelX != null || appelY != null) {
 		getPointProche(appelX,appelY);
-	};
+	}
 	if (taxi != null) {
 		taxi.remove();
 		//taxi = null;  
 		taxi = paperGlobal.image("/static/img/Taxi-50.png", widthCanvas*taxiX-25, heightCanvas*taxiY-25, 50, 50);
-	};
+	}
 }
 
 window.onload = function(){
@@ -127,7 +127,10 @@ $('#myCanvas').click(function(e) {
 	appelX = posX/widthCanvas;
 	appelY = posY/heightCanvas;
 
-	getPointProche(appelX,appelY,this);
+	var namePointLePlusProche = getPointProche(appelX,appelY,this);
+
+	doSendCabRequest(areaName,namePointLePlusProche);
+
 });
 
 function appelSurPoint(caller,name){
@@ -165,9 +168,11 @@ function getPointProche(posX,posY){
 	marker = paperGlobal.image("/static/img/marker.png", widthCanvas*posX-25, heightCanvas*posY-25, 50, 50);
 	cheminAppelPoint.attr({"stroke-dasharray" :".","stroke-width":3});
 
-	doSendCabRequest(areaName,pointLePlusProche.name);
+	//doSendCabRequest(areaName,pointLePlusProche.name);
 	$("#lastNotification").html("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
 	lastNotification = pointLePlusProche.name;
+
+	return pointLePlusProche.name;
 
 	//alert("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
 
