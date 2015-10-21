@@ -40,7 +40,7 @@ window.onresize=function(){
 	if (taxi != null) {
 		taxi.remove();
 		//taxi = null;  
-		taxi = paperGlobal.image("/static/img/Taxi-50.png", taxiX, taxiY, 50, 50);
+		taxi = paperGlobal.image("/static/img/Taxi-50.png", widthCanvas*taxiX-25, heightCanvas*taxiY-25, 50, 50);
 	};
 }
 
@@ -292,8 +292,8 @@ function onMessage(evt)
 					yDestination=Math.round(yDestination);
 					taxi.animate({x: xDestination , y: yDestination}, 1000, "<>");
 				}
-				taxiX = widthCanvas*listVerticesCircle[location].x-25;
-				taxiY = heightCanvas*listVerticesCircle[location].y-25;
+				taxiX = listVerticesCircle[location].x;
+				taxiY = listVerticesCircle[location].y;
 				
 			}else{ //street
 
