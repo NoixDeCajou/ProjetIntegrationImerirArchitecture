@@ -10,12 +10,21 @@ html, body
 
 #myCanvas svg{
 	border:1px solid #000000;
+	-moz-box-shadow: 0px 0px 10px 0px #656565;
+	-webkit-box-shadow: 0px 0px 10px 0px #656565;
+	-o-box-shadow: 0px 0px 10px 0px #656565;
+	box-shadow: 0px 0px 10px 0px #656565;
 	/*background-image:url(../img/back.png);*/
 }
 
 
 .hide{
 	display: none;
+}
+
+h1,h3{
+	display: inline;
+	margin-right: 20px;
 }
 
 /*message d'erreur*/
