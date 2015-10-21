@@ -1,4 +1,4 @@
-# Projet Integration Imerir Architecture &amp; Platforms
+<!-- # Projet Integration Imerir Architecture &amp; Platforms -->
 <h1>Projet d'intégration 'Architecture &amp; Platforms' de la 3éme année d'Imerir</h1>
 
 <h2>Equipe :</h2>
