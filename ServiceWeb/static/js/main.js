@@ -31,15 +31,17 @@ var listVerticesCircle = [];
 
 
 window.onresize=function(){  
-	taxi.remove();
-	taxi = null;  
 	var canvas = init();
 	canvas.innerHTML = "";
 	draw(canvas);
 	if (appelX != null || appelY != null) {
 		getPointProche(appelX,appelY);
 	};
-	taxi = paperGlobal.image("/static/img/Taxi-50.png", taxiX, taxiY, 50, 50);
+	if (taxi != null) {
+		taxi.remove();
+		//taxi = null;  
+		taxi = paperGlobal.image("/static/img/Taxi-50.png", taxiX, taxiY, 50, 50);
+	};
 }
 
 window.onload = function(){
@@ -297,8 +299,10 @@ function onMessage(evt)
 
 			}
 		}else{//Pas dans la zone
-			taxi.remove();
-			taxi = null;
+			if(taxi != null){
+				taxi.remove();
+				taxi = null;
+			}
 		}
 	}
 }
