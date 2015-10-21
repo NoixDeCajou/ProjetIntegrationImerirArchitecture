@@ -3,7 +3,6 @@
 *		Gestion du dessin
 *	
 *
-*
 /***********************************/
 var id;
 
@@ -26,6 +25,7 @@ var taxi = null;
 var taxiX = null;
 var taxiY = null;
 
+var lastNotification =null;
 
 var listVerticesCircle = [];
 
@@ -154,6 +154,7 @@ function appelSurPoint(caller,name){
 	doSendCabRequest(areaName,name);
 	//alert("Un Taxi a été appelé sur le point "+name);
 	$("#lastNotification").html("Un Taxi a été appelé sur le point "+name);
+	lastNotification = name;
 }
 
 function calculeDistance(x1, y1, x2, y2) {
@@ -180,6 +181,7 @@ function getPointProche(posX,posY){
 
 	doSendCabRequest(areaName,pointLePlusProche.name);
 	$("#lastNotification").html("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
+	lastNotification = pointLePlusProche.name;
 
 	//alert("Un Taxi a été appelé sur le point "+pointLePlusProche.name);
 
@@ -294,7 +296,15 @@ function onMessage(evt)
 				}
 				taxiX = listVerticesCircle[location].x;
 				taxiY = listVerticesCircle[location].y;
-				
+				if (lastNotification != null) {
+					if ( (taxiX == listVerticesCircle[lastNotification].x) && (taxiY == listVerticesCircle[lastNotification].y) ) {
+						if (cheminAppelPoint != null || marker != null ) {
+							cheminAppelPoint.remove();
+							marker.remove();
+						}
+					}
+				}
+
 			}else{ //street
 
 			}
@@ -325,15 +335,3 @@ function doSendCabRequest(areaName,vertexName)
 	console.log("Message envoyé : " + message);
 	websocket.send(message);
 }
-
-
-	// $("body").click(function() {
-	// 	console.log(listVerticesCircle);
-	// 	console.log("clik on body");
-	// 	var myx = widthCanvas*listVerticesCircle["b"].x-25;
-	// 	var myy = heightCanvas*listVerticesCircle["b"].y-25;
-	// 	myx=Math.round(myx);
-	// 	myy=Math.round(myy);
-	// 	console.log(myx +"  ,  "+myy);
-	// 	taxi.animate({x: myx , y: myy}, 1000, "<>");
-	// });
