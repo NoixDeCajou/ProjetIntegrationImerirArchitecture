@@ -233,7 +233,7 @@ class MoverRunner(Thread):
 
             poid = CityParser.getPoids(pointActuel, point)
 
-            sleep(coeffSleep*poid)
+            sleep(coeffSleep*poid + 1)
 
             # go to point
 
