@@ -47,6 +47,7 @@ String nextRequestVertice = "";
 String areaRequest = "";
 String currentPosition="";
 int idRequest;
+double distance = 0;
 
 String destinationArea = "";
 String destinationVertice = "";
@@ -61,6 +62,7 @@ int getIdRequest(char *jsonString);
 char* getNextRequest(char *jsonString);
 char* getCurrentPosition(char *jsonString);
 char* getAreaRequest(char *jsonString);
+double getDistance(char *jsonString);
 /******************************/
 
 
@@ -125,14 +127,15 @@ void loop() {
   
   WSclient.monitor();
   
-  
   lcd.setCursor(0,0);
   if(isFree == true){
     lcd.print("                ");
     lcd.setCursor(0,0);
     lcd.print("FREE");
+    lcd.setCursor(0,1);
+    lcd.print("                ");
     
-    lcd.setCursor(15,0);    
+    lcd.setCursor(14,0);    
     if(requestNumber == 0){
       lcd.print("0");
     }else{
@@ -158,7 +161,7 @@ void loop() {
             messageToServer.toCharArray(charMessageToServer,size);
             char* messageToServerFinal = charMessageToServer;
              
-             WSclient.send(messageToServerFinal);
+            WSclient.send(messageToServerFinal);
            break;
            }
          case btnSELECT:
@@ -179,7 +182,13 @@ void loop() {
             char* messageToServerFinal = charMessageToServer;
              
              WSclient.send(messageToServerFinal);
+             //delay(1000);
            break;
+           }
+           case btnRIGHT:
+           {
+             isFree = true;
+             break;
            }
            case btnNONE:
            {
@@ -193,7 +202,7 @@ void loop() {
       isFree = true;
     }else{
        lcd.print("BUSY");   
-       lcd.setCursor(15,0);  
+       lcd.setCursor(14,0);  
        lcd.print(requestNumber);
        lcd.setCursor(0,1);
        lcd.print("                ");
@@ -203,54 +212,11 @@ void loop() {
      }
   }
   
+  lcd.setCursor(5,0);
+  lcd.print("d");
+  lcd.setCursor(6,0);
+  lcd.print(distance);
 
-  
-  
-
-
-
- /*lcd.setCursor(0,1);            // move to the begining of the second line
- lcd_key = read_LCD_buttons();  // read the buttons
-
- switch (lcd_key)               // depending on which button was pushed, we perform an action
- {
-   case btnRIGHT:
-     {
-     lcd.print("RIGHT ");
-     Serial.print("RIGHT ");
-     break;
-     }
-   case btnLEFT:
-     {
-     lcd.print("LEFT   ");
-     Serial.print("LEFT ");
-     break;
-     }
-   case btnUP:
-     {
-     lcd.print("UP    ");
-     Serial.print("UP ");
-     break;
-     }
-   case btnDOWN:
-     {
-     lcd.print("DOWN  ");
-     Serial.print("DOWN ");
-     break;
-     }
-   case btnSELECT:
-     {
-     lcd.print("SELECT");
-     Serial.print("SELECT ");
-     break;
-     }
-     case btnNONE:
-     {
-     //lcd.print("NONE  ");
-     Serial.print("NONE ");
-     break;
-     }
- }*/
 }
 
 String readPage(){
@@ -430,7 +396,7 @@ int getIdRequest(char *jsonString){
         //Serial.println("Parsed successfully 1 " );
         aJsonObject* cabRequests = aJson.getObjectItem(root, "cabRequests"); 
         
-        if (cabRequests != NULL && (getArraySize(cabRequests) != 0) {
+        if (cabRequests != NULL && (aJson.getArraySize(cabRequests) != 0)) {
           //Serial.println("Parsed successfully 1 " );
           aJsonObject* firstCabRequests = aJson.getArrayItem(cabRequests, 0); 
   
@@ -501,6 +467,33 @@ char* getCurrentPosition(char *jsonString){
         return NULL;
     }    
 }
+
+double getDistance(char *jsonString){
+double value;
+
+    aJsonObject* root = aJson.parse(jsonString);
+
+        if (root != NULL) {
+        //Serial.println("Parsed successfully 1 " );
+        aJsonObject* cabInfo = aJson.getObjectItem(root, "cabInfo"); 
+
+          if (cabInfo != NULL) {
+              //Serial.println("Parsed successfully 2 " );
+              aJsonObject* odometer = aJson.getObjectItem(cabInfo, "odometer"); 
+  
+                    if (odometer != NULL) {
+                      value = odometer->valuefloat;
+                    }
+          }
+       
+    }
+
+    if (value) {
+        return value;
+    } else {
+        return NULL;
+    }    
+}
   
 
 // read the buttons
@@ -517,16 +510,6 @@ int read_LCD_buttons()
  if (adc_key_in < 650)  return btnLEFT; 
  if (adc_key_in < 850)  return btnSELECT;  
 
- // For V1.0 comment the other threshold and use the one below:
-/*
- if (adc_key_in < 50)   return btnRIGHT;  
- if (adc_key_in < 195)  return btnUP; 
- if (adc_key_in < 380)  return btnDOWN; 
- if (adc_key_in < 555)  return btnLEFT; 
- if (adc_key_in < 790)  return btnSELECT;   
-*/
-
-
  return btnNONE;  // when all others fail, return this...
 }
 
@@ -542,7 +525,6 @@ void initWebSocket(){
 
 void onOpen(WebSocketClient client) {
   Serial.println("EXAMPLE: onOpen()");
-  WSclient.send("Hello World! nigga");
 }
 
 void onMessage(WebSocketClient client, char* message) {
@@ -551,6 +533,7 @@ void onMessage(WebSocketClient client, char* message) {
   nextRequestVertice = getNextRequest(message);
   areaRequest = getAreaRequest(message);
   currentPosition = getCurrentPosition(message);
+  distance = getDistance(message);
   Serial.print("CURRENT POSITION = ");Serial.println(currentPosition);
   Serial.print("NombreRequest = ");Serial.println(requestNumber);
   Serial.print("NextRequest = ");Serial.println(getNextRequest(message));
