@@ -186,6 +186,9 @@ class MoverRunner(Thread):
 
         theShortestPath
 
+        print("theShortestPath: ")
+        print(theShortestPath)
+
 
         pointActuel = unicode( rootObject['cabInfo']['loc_now']['area'] + "." + rootObject['cabInfo']['loc_now']['location'] )
 
