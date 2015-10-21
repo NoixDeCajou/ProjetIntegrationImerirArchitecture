@@ -67,8 +67,8 @@ function draw(canvas){
 	$.each(firstArea.map.vertices, function(i,item){
 		var circle = paperGlobal.circle(widthCanvas*item.x, heightCanvas*item.y, 30);
 		listVerticesCircle[item.name]=item;
-		//var text = paper.text(canvas.width*item.x, canvas.height*item.y, item.name);
-		//text.attr({"font-weight": "bold" , "font-size" : 20});
+		//var text = paperGlobal.text(canvas.width*item.x, canvas.height*item.y-5, item.name);
+		//text.attr({"font-family": 'Comic Sans MS", cursive, sans-serif' , "font-size" : 30,cursor: 'pointer'});
 		circle.attr({stroke:'#888888',"stroke-width":5,"fill": "#f00",cursor: 'pointer'});
 		circle.click(function(e) {
 			e.stopPropagation();
@@ -110,20 +110,6 @@ function draw(canvas){
 	function hoverOut() {
 		this.animate({
 			r: 30
-		}, 500,"bounce");
-	}
-
-	// Hover in 
-	function hoverInPath() {
-		this.animate({
-			stroke : "#f00"
-		}, 500,"bounce");
-	}
-
-	// Hover out 
-	function hoverOutPath() {
-		this.animate({
-			stroke : "#000000"
 		}, 500,"bounce");
 	}
 
