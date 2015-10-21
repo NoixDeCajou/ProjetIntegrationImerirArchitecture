@@ -1,5 +1,9 @@
+import json
 from pprint import pprint
 import sys
+import CityParser
+import SimpleExampleServer
+
 
 class Vertex:
     def __init__(self, node):
@@ -137,15 +141,17 @@ def dijkstra(aGraph, start, target):
 
 
 
-def doDijkstra(graph, start, end):
+def doDijkstra(rootObj, start, end):
 
     print("in doDijkstra")
     print("graph: ")
-    pprint(graph)
+    #pprint(graph)
     print("start: " + start)
     print("end: " + end)
 
-    g = graph
+    #g = graph
+    g = CityParser.getGraphe(rootObj['rootObject'])
+
 
     print("vertices")
 
@@ -177,3 +183,63 @@ def doDijkstra(graph, start, end):
 
     return (path[::-1])
 
+
+"""
+
+def doDijkstra(graph, start, end):
+
+    print("in doDijkstra")
+    print("graph: ")
+    pprint(graph)
+    print("start: " + start)
+    print("end: " + end)
+
+    g = graph
+
+
+    print("vertices")
+
+    g.afficherVertices()
+
+    pprint(g.get_vertex(end))
+    #print 'Graph data:'
+    #for v in g:
+    #    for w in v.get_connections():
+    #        vid = v.get_id()
+    #        wid = w.get_id()
+    #        print '( %s , %s, %3d)'  % ( vid, wid, v.get_weight(w))
+
+    dijkstra(g, g.get_vertex(start), g.get_vertex(end))
+
+    target = g.get_vertex(end)
+
+    print("end, target")
+    print(end)
+    print(target)
+
+    path = [target.get_id()]
+    shortest(target, path)
+
+    print 'The shortest path : %s' %(path[::-1])
+
+    print("in dijktstra:")
+    pprint((path[::-1]))
+
+    return (path[::-1])
+"""
+
+if __name__ == '__main__':
+
+    with open('rootObject.json') as data_file:
+        SimpleExampleServer.rootObject = json.load(data_file)
+        pprint(SimpleExampleServer.rootObject)
+
+    #g = CityParser.getGraphe(SimpleExampleServer.rootObject['rootObject'])
+
+    #doDijkstra(g, u'Quartier Nord.m', u'Quartier Sud.a' )
+    doDijkstra(SimpleExampleServer.rootObject, u'Quartier Nord.m', u'Quartier Sud.a' )
+
+    #doDijkstra(g, u'Quartier Sud.a', u'Quartier Sud.m' )
+    doDijkstra(SimpleExampleServer.rootObject, u'Quartier Sud.a', u'Quartier Sud.m' )
+
+    #pprint(g)

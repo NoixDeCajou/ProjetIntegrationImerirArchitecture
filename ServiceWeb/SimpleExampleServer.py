@@ -54,14 +54,14 @@ class SimpleChat(WebSocket):
 
 def broadcast(message):
     for client in clients:
-        print("in the for of broadcast")
+        #print("in the for of broadcast")
         # send___(client, unicode(message))
         # client.sendMessage(unicode(message))
         send___(client, unicode(message))
 
 
 def send___(client, msg):
-    print("in send")
+    #print("in send")
     client.sendMessage(msg)
 
 
@@ -106,8 +106,17 @@ def messageReceived(msg):
                 for req in rootObject['cabRequest']:
                     theShortestPath = []
 
+
+
                     if req['idCabRequest'] == idRequest:
-                        theShortestPath = Dijkstra.doDijkstra(graphMap,
+
+                        print "from"
+                        print(unicode(str( rootObject['cabInfo']['loc_now']['area']) + "." + str(rootObject['cabInfo']['loc_now']['location'])))
+
+                        print "to"
+                        print(unicode(str(req['location']['area']) + "." + str( req['location']['location'])))
+
+                        theShortestPath = Dijkstra.doDijkstra(rootObject,
                                                               unicode(str(
                                                                   rootObject['cabInfo']['loc_now']['area']) + "." + str(
                                                                   rootObject['cabInfo']['loc_now']['location'])),
@@ -127,7 +136,7 @@ def messageReceived(msg):
             # supprimer la requete avec l'id idRequest de la liste de requetes
             for req in rootObject["cabRequest"]:
 
-                if req["idCabRequest"] == jsonReceived['id']:
+                if req["idCabRequest"] == idRequest:
                     rootObject["cabRequest"].remove(req)
                     pass
                 pass
@@ -175,8 +184,19 @@ class MoverRunner(Thread):
 
         # le 1er terme est a ignorer car c'est le point actuel
 
-        pointActuel = theShortestPath[0]
-        del theShortestPath[0]
+        theShortestPath
+
+
+        pointActuel = unicode( rootObject['cabInfo']['loc_now']['area'] + "." + rootObject['cabInfo']['loc_now']['location'] )
+
+        print"pointActuel, theShortestPath[0],  pointActuel == theShortestPath[0]"
+        print(pointActuel)
+        print(theShortestPath[0])
+        print( pointActuel == theShortestPath[0] )
+        #pointActuel = theShortestPath[0]
+
+        if pointActuel == theShortestPath[0]:
+            del theShortestPath[0]
 
         print("theshortestpath: ")
         pprint(theShortestPath)

@@ -105,7 +105,7 @@ class BroadcastRunner(Thread):
 
             broadcast(msg)
             server.serve()
-            print(msg)
+            #print(msg)
             #print("str: " + str(msg))
 
             time.sleep(1)

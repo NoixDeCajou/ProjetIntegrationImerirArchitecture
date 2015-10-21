@@ -86,5 +86,6 @@ def getPoids(pointA, pointB):
             print(edge[2])
             return edge[2]
 
+    print "problem in getPoids"
 
     return 0
