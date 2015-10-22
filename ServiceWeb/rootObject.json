@@ -2,47 +2,6 @@
     "rootObject": {
         "areas": [
             {
-                "name": "Quartier Nord",
-                "map": {
-                    "weight": {
-                        "w": 1,
-                        "h": 1
-                    },
-                    "vertices": [
-                        {
-                            "name": "m",
-                            "x": 0.5,
-                            "y": 0.5
-                        },
-                        {
-                            "name": "b",
-                            "x": 0.5,
-                            "y": 1
-                        }
-                    ],
-                    "streets": [
-                        {
-                            "name": "mb",
-                            "path": [
-                                "m",
-                                "b"
-                            ],
-                            "oneway": false
-                        }
-                    ],
-                    "bridges": [
-                        {
-                            "from": "b",
-                            "to": {
-                                "area": "Quartier Sud",
-                                "vertex": "h"
-                            },
-                            "weight": 2
-                        }
-                    ]
-                }
-            },
-            {
                 "name": "Quartier Sud",
                 "map": {
                     "weight": {
@@ -52,34 +11,469 @@
                     "vertices": [
                         {
                             "name": "a",
-                            "x": 1,
-                            "y": 1
+                            "x": 0.5,
+                            "y": 0.1
                         },
                         {
-                            "name": "m",
-                            "x": 0,
-                            "y": 1
+                            "name": "b",
+                            "x": 0.9,
+                            "y": 0.8
+                        },
+                        {
+                            "name": "c",
+                            "x": 0.6,
+                            "y": 0.8
+                        },
+                        {
+                            "name": "d",
+                            "x": 0.75,
+                            "y": 0.7
+                        },
+                        {
+                            "name": "e",
+                            "x": 0.5,
+                            "y": 0.3
+                        },
+                        {
+                            "name": "f",
+                            "x": 0.25,
+                            "y": 0.7
+                        },
+                        {
+                            "name": "g",
+                            "x": 0.4,
+                            "y": 0.8
                         },
                         {
                             "name": "h",
-                            "x": 0.5,
-                            "y": 0
+                            "x": 0.1,
+                            "y": 0.8
                         }
                     ],
                     "streets": [
                         {
-                            "name": "ah",
+                            "name": "ab",
                             "path": [
                                 "a",
+                                "b"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "bc",
+                            "path": [
+                                "b",
+                                "c"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "cd",
+                            "path": [
+                                "c",
+                                "d"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "de",
+                            "path": [
+                                "d",
+                                "e"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "ef",
+                            "path": [
+                                "e",
+                                "f"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "fg",
+                            "path": [
+                                "f",
+                                "g"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "gh",
+                            "path": [
+                                "g",
                                 "h"
                             ],
                             "oneway": false
                         },
                         {
-                            "name": "mh",
+                            "name": "ha",
                             "path": [
-                                "m",
+                                "h",
+                                "a"
+                            ],
+                            "oneway": false
+                        }
+                    ],
+                    "bridges": [
+                        {
+                            "from": "a",
+                            "to": {
+                                "area": "Quartier Nord",
+                                "vertex": "a"
+                            },
+                            "weight": 2
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "Quartier Nord",
+                "map": {
+                    "weight": {
+                        "w": 1,
+                        "h": 1
+                    },
+                    "vertices": [
+                        {
+                            "name": "a",
+                            "x": 0.5,
+                            "y": 0.95
+                        },
+                        {
+                            "name": "b",
+                            "x": 0.5,
+                            "y": 0.7
+                        },
+                        {
+                            "name": "c",
+                            "x": 0.7,
+                            "y": 0.5
+                        },
+                        {
+                            "name": "d",
+                            "x": 0.5,
+                            "y": 0.3
+                        },
+                        {
+                            "name": "e",
+                            "x": 0.3,
+                            "y": 0.5
+                        },
+                        {
+                            "name": "f",
+                            "x": 0.95,
+                            "y": 0.5
+                        },
+                        {
+                            "name": "g",
+                            "x": 0.5,
+                            "y": 0.05
+                        },
+                        {
+                            "name": "h",
+                            "x": 0.05,
+                            "y": 0.5
+                        }
+                    ],
+                    "streets": [
+                        {
+                            "name": "ab",
+                            "path": [
+                                "a",
+                                "b"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "bc",
+                            "path": [
+                                "b",
+                                "c"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "cd",
+                            "path": [
+                                "c",
+                                "d"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "de",
+                            "path": [
+                                "d",
+                                "e"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "eb",
+                            "path": [
+                                "e",
+                                "b"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "af",
+                            "path": [
+                                "a",
+                                "f"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "fg",
+                            "path": [
+                                "f",
+                                "g"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "gh",
+                            "path": [
+                                "g",
                                 "h"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "ha",
+                            "path": [
+                                "h",
+                                "a"
+                            ],
+                            "oneway": false
+                        }
+                    ],
+                    "bridges": [
+                        {
+                            "from": "a",
+                            "to": {
+                                "area": "Quartier Sud",
+                                "vertex": "a"
+                            },
+                            "weight": 2
+                        },
+                        {
+                            "from": "g",
+                            "to": {
+                                "area": "Gotham City",
+                                "vertex": "h"
+                            },
+                            "weight": 2
+                        }
+                    ]
+                }
+            },           
+            {
+                "name": "Gotham City",
+                "map": {
+                    "weight": {
+                        "w": 1,
+                        "h": 1
+                    },
+                    "vertices": [
+                        {
+                            "name": "a",
+                            "x": 0.2,
+                            "y": 0.2
+                        },
+                        {
+                            "name": "b",
+                            "x": 0.7,
+                            "y": 0.2
+                        },
+                        {
+                            "name": "c",
+                            "x": 0.7,
+                            "y": 0.6
+                        },
+                        {
+                            "name": "d",
+                            "x": 0.2,
+                            "y": 0.6
+                        },
+                        {
+                            "name": "e",
+                            "x": 0.95,
+                            "y": 0.2
+                        },
+                        {
+                            "name": "f",
+                            "x": 0.95,
+                            "y": 0.6
+                        },
+                        {
+                            "name": "g",
+                            "x": 0.7,
+                            "y": 0.95
+                        },
+                        {
+                            "name": "h",
+                            "x": 0.2,
+                            "y": 0.95
+                        },
+                        {
+                            "name": "i",
+                            "x": 0.05,
+                            "y": 0.6
+                        },
+                        {
+                            "name": "j",
+                            "x": 0.05,
+                            "y": 0.2
+                        },
+                        {
+                            "name": "k",
+                            "x": 0.2,
+                            "y": 0.05
+                        },
+                        {
+                            "name": "l",
+                            "x": 0.7,
+                            "y": 0.05
+                        }
+                    ],
+                    "streets": [
+                        {
+                            "name": "ab",
+                            "path": [
+                                "a",
+                                "b"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "bc",
+                            "path": [
+                                "b",
+                                "c"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "cd",
+                            "path": [
+                                "c",
+                                "d"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "da",
+                            "path": [
+                                "d",
+                                "a"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "eb",
+                            "path": [
+                                "e",
+                                "b"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "ak",
+                            "path": [
+                                "a",
+                                "k"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "fe",
+                            "path": [
+                                "f",
+                                "e"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "gh",
+                            "path": [
+                                "g",
+                                "h"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "hd",
+                            "path": [
+                                "h",
+                                "d"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "cf",
+                            "path": [
+                                "c",
+                                "f"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "cg",
+                            "path": [
+                                "c",
+                                "g"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "bl",
+                            "path": [
+                                "b",
+                                "l"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "le",
+                            "path": [
+                                "l",
+                                "e"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "jk",
+                            "path": [
+                                "j",
+                                "k"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "ja",
+                            "path": [
+                                "j",
+                                "a"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "id",
+                            "path": [
+                                "i",
+                                "d"
+                            ],
+                            "oneway": false
+                        },
+                        {
+                            "name": "ia",
+                            "path": [
+                                "i",
+                                "a"
                             ],
                             "oneway": false
                         }
@@ -89,7 +483,7 @@
                             "from": "h",
                             "to": {
                                 "area": "Quartier Nord",
-                                "vertex": "b"
+                                "vertex": "g"
                             },
                             "weight": 2
                         }
@@ -109,9 +503,9 @@
             }
         },
         "loc_now": {
-            "area": "Quartier Nord",
+            "area": "Quartier Sud",
             "locationType": "vertex",
-            "location": "m"
+            "location": "e"
         },
         "loc_prior": {
             "area": "Quartier Nord",
