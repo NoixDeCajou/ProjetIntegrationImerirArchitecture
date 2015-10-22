@@ -14,7 +14,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/untitled2$ServiceWeb.coverage" NAME="ServiceWeb Coverage Results" MODIFIED="1445471056799" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/untitled2$ServiceWeb.coverage" NAME="ServiceWeb Coverage Results" MODIFIED="1445472781546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/untitled2$untitled2.coverage" NAME="untitled2 Coverage Results" MODIFIED="1444915911061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/untitled2$CityParser.coverage" NAME="CityParser Coverage Results" MODIFIED="1445266947795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/untitled2$SimpleExampleServer.coverage" NAME="SimpleExampleServer Coverage Results" MODIFIED="1444919170162" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -32,7 +32,7 @@
       <file leaf-file-name="ServiceWeb.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ServiceWeb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45953757">
+            <state vertical-scroll-proportion="0.0">
               <caret line="195" column="0" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
               <folding>
                 <element signature="e#15#26#0" expanded="true" />
@@ -62,8 +62,6 @@
               <folding>
                 <element signature="e#72#83#0" expanded="true" />
                 <element signature="e#593#1347#0" expanded="false" />
-                <marker date="1445470031643" expanded="true" signature="515:559" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1445470031643" expanded="true" signature="1410:1480" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -73,8 +71,10 @@
         <entry file="file://$PROJECT_DIR$/static/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="328" column="36" selection-start-line="328" selection-start-column="36" selection-end-line="328" selection-end-column="36" />
-              <folding />
+              <caret line="361" column="36" selection-start-line="361" selection-start-column="36" selection-end-line="361" selection-end-column="36" />
+              <folding>
+                <marker date="1445471320220" expanded="true" signature="10394:10465" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -176,6 +176,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -242,8 +244,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -650,8 +650,6 @@
           <folding>
             <element signature="e#72#83#0" expanded="true" />
             <element signature="e#593#1347#0" expanded="false" />
-            <marker date="1445470031643" expanded="true" signature="515:559" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1445470031643" expanded="true" signature="1410:1480" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -690,8 +688,6 @@
           <folding>
             <element signature="e#72#83#0" expanded="true" />
             <element signature="e#593#1347#0" expanded="false" />
-            <marker date="1445470031643" expanded="true" signature="515:559" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1445470031643" expanded="true" signature="1410:1480" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -730,8 +726,6 @@
           <folding>
             <element signature="e#72#83#0" expanded="true" />
             <element signature="e#593#1347#0" expanded="false" />
-            <marker date="1445470031643" expanded="true" signature="515:559" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1445470031643" expanded="true" signature="1410:1480" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -747,10 +741,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#446#657#0" expanded="false" />
-            <element signature="e#1208#17193#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -781,8 +771,6 @@
           <folding>
             <element signature="e#72#83#0" expanded="true" />
             <element signature="e#593#1347#0" expanded="false" />
-            <marker date="1445470031643" expanded="true" signature="515:559" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1445470031643" expanded="true" signature="1410:1480" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -814,8 +802,6 @@
           <folding>
             <element signature="e#72#83#0" expanded="true" />
             <element signature="e#593#1347#0" expanded="false" />
-            <marker date="1445470031643" expanded="true" signature="515:559" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1445470031643" expanded="true" signature="1410:1480" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -831,10 +817,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding>
-            <element signature="e#446#657#0" expanded="false" />
-            <element signature="e#1208#17193#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -855,8 +837,6 @@
           <folding>
             <element signature="e#72#83#0" expanded="true" />
             <element signature="e#593#1347#0" expanded="false" />
-            <marker date="1445470031643" expanded="true" signature="515:559" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1445470031643" expanded="true" signature="1410:1480" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -872,10 +852,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding>
-            <element signature="e#446#657#0" expanded="false" />
-            <element signature="e#1208#17193#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -896,8 +872,6 @@
           <folding>
             <element signature="e#72#83#0" expanded="true" />
             <element signature="e#593#1347#0" expanded="false" />
-            <marker date="1445470031643" expanded="true" signature="515:559" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1445470031643" expanded="true" signature="1410:1480" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -913,10 +887,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding>
-            <element signature="e#446#657#0" expanded="false" />
-            <element signature="e#1208#17193#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1015,10 +985,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="576" column="27" selection-start-line="576" selection-start-column="27" selection-end-line="576" selection-end-column="27" />
-          <folding>
-            <element signature="e#446#657#0" expanded="false" />
-            <element signature="e#1208#17193#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1053,8 +1019,10 @@
     <entry file="file://$PROJECT_DIR$/static/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="328" column="36" selection-start-line="328" selection-start-column="36" selection-end-line="328" selection-end-column="36" />
-          <folding />
+          <caret line="361" column="36" selection-start-line="361" selection-start-column="36" selection-end-line="361" selection-end-column="36" />
+          <folding>
+            <marker date="1445471320220" expanded="true" signature="10394:10465" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1062,7 +1030,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1073,8 +1040,6 @@
           <folding>
             <element signature="e#72#83#0" expanded="true" />
             <element signature="e#593#1347#0" expanded="false" />
-            <marker date="1445470031643" expanded="true" signature="515:559" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1445470031643" expanded="true" signature="1410:1480" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1092,7 +1057,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ServiceWeb.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45953757">
+        <state vertical-scroll-proportion="0.0">
           <caret line="195" column="0" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
           <folding>
             <element signature="e#15#26#0" expanded="true" />
