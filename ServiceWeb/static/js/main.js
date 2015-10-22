@@ -317,7 +317,8 @@ function onMessage(evt)
 					xDestination=Math.round(xDestination);
 					yDestination=Math.round(yDestination);
 					//Animation easein easeout vers le x et y demandé (1seconde d'animation)
-					taxi.animate({x: xDestination , y: yDestination}, 1000, "<>");
+					//taxi.animate({x: xDestination , y: yDestination}, 1000, "<>");
+					taxi.animate({x: xDestination , y: yDestination}, 500, "<>");
 				}
 				//dans tout les cas, on recupere les coordonées du taxi pour le redessiner au redimentionnement
 				taxiX = listVerticesCircle[location].x;
